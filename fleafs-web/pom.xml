@@ -10,5 +10,16 @@
     <name>FLEA FS WEB</name>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>fleafs-web</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>fleafs-config</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

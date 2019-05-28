@@ -6,9 +6,6 @@
     <groupId>com.huazie.ffs</groupId>
     <artifactId>fleafs-parent</artifactId>
     <version>1.0.0</version>
-    <modules>
-        <module>fleafs-web</module>
-    </modules>
     <packaging>pom</packaging>
     <name>FLEA FS</name>
 
@@ -228,5 +225,10 @@
         </dependency>
 
     </dependencies>
+
+    <modules>
+        <module>fleafs-web</module>
+        <module>fleafs-config</module>
+    </modules>
 
 </project>
