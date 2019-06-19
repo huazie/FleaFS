@@ -1,7 +1,5 @@
 package com.huazie.ffs.web;
 
-import com.huazie.frame.jersey.api.data.RequestBusinessData;
-import com.huazie.frame.jersey.api.data.ResponseBusinessData;
 import com.huazie.frame.jersey.api.resource.FleaJerseyPostResource;
 
 import javax.ws.rs.Path;
@@ -16,9 +14,4 @@ import javax.ws.rs.Path;
 @Path("upload")
 public class UploadResource extends FleaJerseyPostResource {
 
-    @Override
-    protected ResponseBusinessData doPost(RequestBusinessData requestBusinessData) throws Exception {
-
-        return null;
-    }
 }
