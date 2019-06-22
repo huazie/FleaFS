@@ -1,6 +1,6 @@
 package com.huazie.ffs.web;
 
-import com.huazie.frame.jersey.api.resource.FleaJerseyPostResource;
+import com.huazie.frame.jersey.server.resource.FleaJerseyPostResource;
 
 import javax.ws.rs.Path;
 

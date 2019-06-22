@@ -1,8 +1,8 @@
 package com.huazie.ffs.web;
 
-import com.huazie.frame.jersey.api.data.FleaJerseyRequestData;
-import com.huazie.frame.jersey.api.data.FleaJerseyResponseData;
-import com.huazie.frame.jersey.api.resource.FleaJerseyTestGetResource;
+import com.huazie.frame.jersey.common.data.FleaJerseyRequestData;
+import com.huazie.frame.jersey.common.data.FleaJerseyResponseData;
+import com.huazie.frame.jersey.server.resource.FleaJerseyTestGetResource;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

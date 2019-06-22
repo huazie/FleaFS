@@ -19,6 +19,7 @@
 
     <properties>
         <jersey.version>2.9</jersey.version>
+        <fleaframe.version>1.0.0</fleaframe.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -225,6 +226,21 @@
                 <version>2.3.20</version>
             </dependency>
             -->
+
+            <!-- FLEA FRAME JERSEY SERVER-->
+            <dependency>
+                <groupId>com.huazie.frame</groupId>
+                <artifactId>flea-frame-jersey-server</artifactId>
+                <version>${fleaframe.version}</version>
+            </dependency>
+
+            <!-- FLEA FRAME JERSEY CLIENT-->
+            <dependency>
+                <groupId>com.huazie.frame</groupId>
+                <artifactId>flea-frame-jersey-client</artifactId>
+                <version>${fleaframe.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
