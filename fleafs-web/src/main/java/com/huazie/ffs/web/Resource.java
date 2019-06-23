@@ -1,13 +1,14 @@
 package com.huazie.ffs.web;
 
-import com.huazie.frame.jersey.common.data.FleaJerseyRequestData;
-import com.huazie.frame.jersey.common.data.FleaJerseyResponseData;
+import com.huazie.frame.core.base.cfgdata.bean.FleaConfigDataSpringBean;
+import com.huazie.frame.core.base.cfgdata.service.interfaces.IFleaJerseyI18nErrorMappingSV;
 import com.huazie.frame.jersey.server.resource.FleaJerseyTestGetResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 /**
  * <p>  </p>
@@ -19,16 +20,19 @@ import javax.ws.rs.core.MediaType;
 @Path("resource")
 public class Resource extends FleaJerseyTestGetResource {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(Resource.class);
+
+    @Autowired
+    protected FleaConfigDataSpringBean fleaConfigDataSpringBean;
+
     @Override
     protected String doGet(String resId) {
+        try {
+            fleaConfigDataSpringBean.getMapping("jersey-filter-resource", "jersey-filter-service", "ERROR-JERSEY-FILTER0000000005");
+        } catch (Exception e) {
+            LOGGER.error("Exception={}", e);
+        }
         return "This is " + resId + " !!!";
-    }
-
-    @POST
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public FleaJerseyResponseData upload(FleaJerseyRequestData requestData) {
-
-        return null;
     }
 
 }

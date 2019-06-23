@@ -23,12 +23,13 @@
             <param name="ConversionPattern" value="%d %-5p [%c:%L] - %m%n" />
         </layout>
     </appender>
-	
+
+	<!--
 	<logger name="org.springframework">
 		<level value="WARN" />
 		<appender-ref ref="myConsole" />
 		<appender-ref ref="myFile"/>
-	</logger>
+	</logger>-->
 	
 	<logger name="org.hibernate">
 		<level value="WARN" />
