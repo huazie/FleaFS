@@ -1,13 +1,10 @@
 package com.huazie.ffs.web;
 
-import com.huazie.frame.jersey.api.data.FleaJerseyRequestData;
-import com.huazie.frame.jersey.api.data.FleaJerseyResponseData;
-import com.huazie.frame.jersey.api.resource.FleaJerseyTestGetResource;
+import com.huazie.frame.jersey.server.resource.FleaJerseyTestGetResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 /**
  * <p>  </p>
@@ -19,16 +16,11 @@ import javax.ws.rs.core.MediaType;
 @Path("resource")
 public class Resource extends FleaJerseyTestGetResource {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(Resource.class);
+
     @Override
     protected String doGet(String resId) {
         return "This is " + resId + " !!!";
-    }
-
-    @POST
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public FleaJerseyResponseData upload(FleaJerseyRequestData requestData) {
-
-        return null;
     }
 
 }

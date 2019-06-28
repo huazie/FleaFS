@@ -23,7 +23,7 @@
             <param name="ConversionPattern" value="%d %-5p [%c:%L] - %m%n" />
         </layout>
     </appender>
-	
+
 	<logger name="org.springframework">
 		<level value="WARN" />
 		<appender-ref ref="myConsole" />
