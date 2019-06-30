@@ -1,7 +1,7 @@
 package com.huazie.ffs.module.upload.service.interfaces;
 
-import com.huazie.ffs.module.upload.pojo.InputUploadAuthInfo;
-import com.huazie.ffs.module.upload.pojo.OutputUploadAuthInfo;
+import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
+import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
 
 /**
  * <p> Flea上传服务接口 </p>

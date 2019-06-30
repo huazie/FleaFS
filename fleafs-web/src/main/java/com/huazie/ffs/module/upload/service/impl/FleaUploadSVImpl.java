@@ -1,8 +1,9 @@
 package com.huazie.ffs.module.upload.service.impl;
 
-import com.huazie.ffs.module.upload.pojo.InputUploadAuthInfo;
-import com.huazie.ffs.module.upload.pojo.OutputUploadAuthInfo;
+import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
+import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
 import com.huazie.ffs.module.upload.service.interfaces.IFleaUploadSV;
+import com.huazie.frame.common.util.RandomCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         }
 
         OutputUploadAuthInfo output = new OutputUploadAuthInfo();
-
+        output.setToken(RandomCode.toUUID());
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("FleaUploadSVImpl##uploadAuth(InputUploadAuthInfo) End");
