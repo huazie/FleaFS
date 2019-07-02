@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0.0
  * @since 1.0.0
  */
-@Service("fleaUploadSVImpl")
+@Service
 public class FleaUploadSVImpl implements IFleaUploadSV {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(FleaUploadSVImpl.class);
