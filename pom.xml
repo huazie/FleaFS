@@ -253,11 +253,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet-core</artifactId>
-        </dependency>
-
         <!-- Junit 单元测试相关 -->
         <dependency>
             <groupId>junit</groupId>
