@@ -12,7 +12,6 @@
     <artifactId>fleafs-pojo</artifactId>
     <packaging>jar</packaging>
 
-    <!-- FLEA FRAME JERSEY SERVER-->
     <dependencies>
         <dependency>
             <groupId>commons-lang</groupId>
