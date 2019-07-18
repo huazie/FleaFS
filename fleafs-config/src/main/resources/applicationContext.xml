@@ -18,7 +18,7 @@
     <!--
         读取的配置文件
         单个配置文件使用location，且不用使用list，多个配置文件使用locations
-    -->
+
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
@@ -27,7 +27,7 @@
         </property>
         <property name="fileEncoding" value="UTF-8"/>
     </bean>
-
+    -->
     <bean id="defaultPersistenceManager"
           class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
         <property name="persistenceXmlLocations">

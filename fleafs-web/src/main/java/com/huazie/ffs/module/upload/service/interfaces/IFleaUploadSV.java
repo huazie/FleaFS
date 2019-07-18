@@ -12,5 +12,13 @@ import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
  */
 public interface IFleaUploadSV {
 
+    /**
+     * <p> 上传授权 </p>
+     *
+     * @param input 上传授权业务入参
+     * @return 上传授权业务出参
+     * @throws Exception
+     * @since 1.0.0
+     */
     OutputUploadAuthInfo uploadAuth(InputUploadAuthInfo input) throws Exception;
 }
