@@ -2,7 +2,6 @@ package com.huazie.ffs.pojo.download.output;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import java.io.InputStream;
 import java.io.Serializable;
 
 /**
@@ -18,7 +17,7 @@ public class OutputFileDownloadInfo implements Serializable {
 
     private String fileName;
 
-    private InputStream fileInputStream;
+    private String fileInput;
 
     public String getFileName() {
         return fileName;
@@ -28,12 +27,12 @@ public class OutputFileDownloadInfo implements Serializable {
         this.fileName = fileName;
     }
 
-    public InputStream getFileInputStream() {
-        return fileInputStream;
+    public String getFileInput() {
+        return fileInput;
     }
 
-    public void setFileInputStream(InputStream fileInputStream) {
-        this.fileInputStream = fileInputStream;
+    public void setFileInput(String fileInput) {
+        this.fileInput = fileInput;
     }
 
     @Override

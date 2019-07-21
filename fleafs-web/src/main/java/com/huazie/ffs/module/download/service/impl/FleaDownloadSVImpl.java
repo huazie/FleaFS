@@ -5,11 +5,13 @@ import com.huazie.ffs.pojo.download.input.InputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.input.InputFileDownloadInfo;
 import com.huazie.ffs.pojo.download.output.OutputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.output.OutputFileDownloadInfo;
+import com.huazie.frame.common.util.IOUtils;
 import com.huazie.frame.common.util.RandomCode;
-import com.huazie.frame.common.util.ResourcesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 
 /**
  * <p> Flea下载服务实现类 </p>
@@ -47,8 +49,8 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
         }
 
         OutputFileDownloadInfo output = new OutputFileDownloadInfo();
-        output.setFileName("test.txt");
-        output.setFileInputStream(ResourcesUtil.getInputStreamFromClassPath("file\\test.txt"));
+        output.setFileName("绿色田园风光.jpg");
+        output.setFileInput(IOUtils.toString(new File("E:\\fleaworkspace\\FleaFS\\fleafs-web\\src\\main\\resources\\file\\绿色田园风光.jpg")));
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("FleaDownloadSVImpl##fileDownload(InputFileDownloadInfo) End");
