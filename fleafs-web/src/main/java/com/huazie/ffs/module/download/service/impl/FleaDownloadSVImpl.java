@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * <p> Flea下载服务实现类 </p>
@@ -50,7 +52,7 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
 
         OutputFileDownloadInfo output = new OutputFileDownloadInfo();
         output.setFileName("绿色田园风光.jpg");
-        output.setFileInput(IOUtils.toString(new File("E:\\fleaworkspace\\FleaFS\\fleafs-web\\src\\main\\resources\\file\\绿色田园风光.jpg")));
+        output.setFileInput(IOUtils.toString(new File(FleaDownloadSVImpl.class.getResource("/file/绿色田园风光.jpg").getPath())));
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("FleaDownloadSVImpl##fileDownload(InputFileDownloadInfo) End");
