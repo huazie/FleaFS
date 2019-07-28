@@ -1,7 +1,7 @@
 package com.huazie.ffs.module.upload.service.interfaces;
 
-import com.huazie.ffs.module.upload.pojo.InputUploadAuthInfo;
-import com.huazie.ffs.module.upload.pojo.OutputUploadAuthInfo;
+import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
+import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
 
 /**
  * <p> Flea上传服务接口 </p>
@@ -12,5 +12,13 @@ import com.huazie.ffs.module.upload.pojo.OutputUploadAuthInfo;
  */
 public interface IFleaUploadSV {
 
+    /**
+     * <p> 上传授权 </p>
+     *
+     * @param input 上传授权业务入参
+     * @return 上传授权业务出参
+     * @throws Exception
+     * @since 1.0.0
+     */
     OutputUploadAuthInfo uploadAuth(InputUploadAuthInfo input) throws Exception;
 }
