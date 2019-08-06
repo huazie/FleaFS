@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FleaFSTest {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(FleaFSTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FleaFSTest.class);
 
     @Test
     public void testMemcachedConfig() {

@@ -25,7 +25,7 @@ import java.io.InputStream;
 @Service
 public class FleaDownloadSVImpl implements IFleaDownloadSV {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(FleaDownloadSVImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FleaDownloadSVImpl.class);
 
     @Override
     public OutputDownloadAuthInfo downloadAuth(InputDownloadAuthInfo input) throws Exception {
