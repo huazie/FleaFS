@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FleaUploadSVImpl implements IFleaUploadSV {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(FleaUploadSVImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FleaUploadSVImpl.class);
 
     @Override
     public OutputUploadAuthInfo uploadAuth(InputUploadAuthInfo input) throws Exception {
