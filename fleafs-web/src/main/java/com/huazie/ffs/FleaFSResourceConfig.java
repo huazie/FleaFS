@@ -1,9 +1,8 @@
 package com.huazie.ffs;
 
-import javax.ws.rs.ApplicationPath;
-
 import com.huazie.frame.jersey.server.core.FleaResourceConfig;
-import org.glassfish.jersey.server.ResourceConfig;
+
+import javax.ws.rs.ApplicationPath;
 
 /**
  * <p> FleaFS 资源入口 </p>

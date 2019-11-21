@@ -7,13 +7,13 @@ import com.huazie.ffs.pojo.download.output.OutputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.output.OutputFileDownloadInfo;
 import com.huazie.frame.common.util.IOUtils;
 import com.huazie.frame.common.util.RandomCode;
+import com.huazie.frame.common.util.StringUtils;
+import com.huazie.frame.db.common.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 /**
  * <p> Flea下载服务实现类 </p>
@@ -31,6 +31,12 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
     public OutputDownloadAuthInfo downloadAuth(InputDownloadAuthInfo input) throws Exception {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("FleaDownloadSVImpl##downloadAuth(InputDownloadAuthInfo) Start");
+        }
+
+        String fileId = input.getFileId();
+        if (StringUtils.isBlank(fileId)) {
+            // 入参【{0}】不能为空
+            throw new ServiceException("ERROR-SERVICE0000000001", "fileId");
         }
 
         OutputDownloadAuthInfo output = new OutputDownloadAuthInfo();
