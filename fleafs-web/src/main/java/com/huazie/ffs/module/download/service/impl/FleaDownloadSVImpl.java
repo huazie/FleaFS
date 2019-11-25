@@ -58,7 +58,7 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
 
         OutputFileDownloadInfo output = new OutputFileDownloadInfo();
         output.setFileName("绿色田园风光.jpg");
-        output.setFileInput(IOUtils.toString(new File(FleaDownloadSVImpl.class.getResource("/file/绿色田园风光.jpg").getPath())));
+        output.setFileInput(IOUtils.toString(new File(FleaDownloadSVImpl.class.getResource("/file/绿色田园风光.jpg").getPath()), true));
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("FleaDownloadSVImpl##fileDownload(InputFileDownloadInfo) End");
