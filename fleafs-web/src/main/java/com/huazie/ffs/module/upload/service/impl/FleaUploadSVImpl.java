@@ -1,10 +1,10 @@
 package com.huazie.ffs.module.upload.service.impl;
 
+import com.huazie.ffs.module.upload.service.interfaces.IFleaUploadSV;
 import com.huazie.ffs.pojo.upload.input.InputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
 import com.huazie.ffs.pojo.upload.output.OutputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
-import com.huazie.ffs.module.upload.service.interfaces.IFleaUploadSV;
 import com.huazie.frame.common.DateFormatEnum;
 import com.huazie.frame.common.util.DateUtils;
 import com.huazie.frame.common.util.IOUtils;
@@ -13,6 +13,7 @@ import com.huazie.frame.common.util.StringUtils;
 import com.huazie.frame.db.common.exception.ServiceException;
 import com.huazie.frame.jersey.common.data.FleaJerseyFileContext;
 import com.huazie.frame.jersey.server.filter.FleaJerseyManager;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,17 +68,19 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
 
         // 获取文件信息
         FleaJerseyFileContext fleaJerseyFileContext = FleaJerseyManager.getContext().getFleaJerseyFileContext();
-        if (ObjectUtils.isEmpty(fleaJerseyFileContext) || ObjectUtils.isEmpty(fleaJerseyFileContext.getInputStream()) || ObjectUtils.isEmpty(fleaJerseyFileContext.getFormDataContentDisposition())) {
+        if (ObjectUtils.isEmpty(fleaJerseyFileContext) || ObjectUtils.isEmpty(fleaJerseyFileContext.getFileFormDataBodyPart())) {
             // 无法获取上传文件，请检查
             throw new ServiceException("", "");
         }
 
-        InputStream fileInputStream = fleaJerseyFileContext.getInputStream();
-        FormDataContentDisposition formDataContentDisposition = fleaJerseyFileContext.getFormDataContentDisposition();
+        FormDataBodyPart fileFormDataBodyPart = fleaJerseyFileContext.getFileFormDataBodyPart();
+        FormDataContentDisposition formDataContentDisposition = fileFormDataBodyPart.getFormDataContentDisposition();
         String fileName = formDataContentDisposition.getFileName();
 
+        File uploadFile = fileFormDataBodyPart.getValueAs(File.class);
+
         String fileId = DateUtils.date2String(null, DateFormatEnum.YYYYMMDD) + RandomCode.toUUID();
-        IOUtils.toFile(fileInputStream, "E:\\" + fileId + "_" +fileName);
+        IOUtils.toFile(new FileInputStream(uploadFile), "E:\\" + fileId + "_" +fileName);
         OutputFileUploadInfo outputFileUploadInfo = new OutputFileUploadInfo();
         outputFileUploadInfo.setFileId(fileId);
 
