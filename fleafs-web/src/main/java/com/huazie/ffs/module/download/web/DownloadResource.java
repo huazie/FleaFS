@@ -19,8 +19,8 @@ import javax.ws.rs.Path;
 public class DownloadResource extends Resource implements JerseyGetResource, JerseyPostResource {
 
     @Override
-    public FleaJerseyResponse doGetResource(String requestXml) {
-        return doResource(requestXml);
+    public FleaJerseyResponse doGetResource(String requestData) {
+        return doResource(requestData);
     }
 
     @Override
