@@ -13,36 +13,26 @@ import java.io.Serializable;
  */
 public class OutputFileDownloadInfo implements Serializable {
 
-    private String acctId; // 文件上传账户
+    private String uploadAcctId; // 文件上传账户编号
 
-    private String systemAcctId; // 文件上传系统账户
-
-    private String count; // 文件下载次数
+    private String uploadSystemAcctId; // 文件上传系统账户编号
 
     private String uploadDate; // 文件上传日期
 
-    public String getAcctId() {
-        return acctId;
+    public String getUploadAcctId() {
+        return uploadAcctId;
     }
 
-    public void setAcctId(String acctId) {
-        this.acctId = acctId;
+    public void setUploadAcctId(String uploadAcctId) {
+        this.uploadAcctId = uploadAcctId;
     }
 
-    public String getSystemAcctId() {
-        return systemAcctId;
+    public String getUploadSystemAcctId() {
+        return uploadSystemAcctId;
     }
 
-    public void setSystemAcctId(String systemAcctId) {
-        this.systemAcctId = systemAcctId;
-    }
-
-    public String getCount() {
-        return count;
-    }
-
-    public void setCount(String count) {
-        this.count = count;
+    public void setUploadSystemAcctId(String uploadSystemAcctId) {
+        this.uploadSystemAcctId = uploadSystemAcctId;
     }
 
     public String getUploadDate() {
