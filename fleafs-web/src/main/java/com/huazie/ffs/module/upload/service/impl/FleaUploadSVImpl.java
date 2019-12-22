@@ -13,8 +13,6 @@ import com.huazie.frame.common.util.StringUtils;
 import com.huazie.frame.db.common.exception.ServiceException;
 import com.huazie.frame.jersey.common.FleaJerseyManager;
 import com.huazie.frame.jersey.common.data.FleaFileObject;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
