@@ -2,9 +2,9 @@ package com.huazie.ffs.module.download.web;
 
 import com.huazie.frame.jersey.common.data.FleaJerseyRequest;
 import com.huazie.frame.jersey.common.data.FleaJerseyResponse;
-import com.huazie.frame.jersey.server.resource.JerseyGetResource;
 import com.huazie.frame.jersey.server.resource.JerseyPostResource;
-import com.huazie.frame.jersey.server.resource.Resource;
+import com.huazie.frame.jersey.server.resource.impl.FleaJerseyFGetResource;
+import com.huazie.frame.jersey.server.resource.impl.FleaJerseyGetResource;
 
 import javax.ws.rs.Path;
 
@@ -13,18 +13,17 @@ import javax.ws.rs.Path;
  *
  * @author huazie
  * @version 1.0.0
- * @since 1.0.0
+ * @since .0.0
  */
 @Path("download")
-public class DownloadResource extends Resource implements JerseyGetResource, JerseyPostResource {
+public class DownloadResource extends FleaJerseyFGetResource implements JerseyPostResource {
 
-    @Override
-    public FleaJerseyResponse doGetResource(String requestXml) {
-        return doResource(requestXml);
-    }
-
+    /**
+     * @see JerseyPostResource#doPostResource(FleaJerseyRequest)
+     */
     @Override
     public FleaJerseyResponse doPostResource(FleaJerseyRequest request) {
         return doResource(request);
     }
+
 }

@@ -13,26 +13,34 @@ import java.io.Serializable;
  */
 public class OutputFileDownloadInfo implements Serializable {
 
-    private static final long serialVersionUID = -7771699230002428344L;
+    private String uploadAcctId; // 文件上传账户编号
 
-    private String fileName;
+    private String uploadSystemAcctId; // 文件上传系统账户编号
 
-    private String fileInput;
+    private String uploadDate; // 文件上传日期
 
-    public String getFileName() {
-        return fileName;
+    public String getUploadAcctId() {
+        return uploadAcctId;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setUploadAcctId(String uploadAcctId) {
+        this.uploadAcctId = uploadAcctId;
     }
 
-    public String getFileInput() {
-        return fileInput;
+    public String getUploadSystemAcctId() {
+        return uploadSystemAcctId;
     }
 
-    public void setFileInput(String fileInput) {
-        this.fileInput = fileInput;
+    public void setUploadSystemAcctId(String uploadSystemAcctId) {
+        this.uploadSystemAcctId = uploadSystemAcctId;
+    }
+
+    public String getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(String uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     @Override
