@@ -39,10 +39,18 @@
             <version>1.27</version>
         </dependency>
 
+        <!-- servlet 2.x -->
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet-core</artifactId>
         </dependency>
+
+        <!-- servlet 3.x
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+        </dependency>
+        -->
 
         <!-- Spring相关 -->
         <dependency>
