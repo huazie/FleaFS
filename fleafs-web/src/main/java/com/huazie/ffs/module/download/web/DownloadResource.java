@@ -4,7 +4,6 @@ import com.huazie.frame.jersey.common.data.FleaJerseyRequest;
 import com.huazie.frame.jersey.common.data.FleaJerseyResponse;
 import com.huazie.frame.jersey.server.resource.JerseyPostResource;
 import com.huazie.frame.jersey.server.resource.impl.FleaJerseyFGetResource;
-import com.huazie.frame.jersey.server.resource.impl.FleaJerseyGetResource;
 
 import javax.ws.rs.Path;
 
