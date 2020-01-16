@@ -34,6 +34,7 @@
             <!-- 可以配置多个持久单元 -->
             <list>
                 <value>classpath:META-INF/fleaconfig-persistence.xml</value>
+                <value>classpath:META-INF/fleaauth-persistence.xml</value>
             </list>
         </property>
     </bean>
@@ -46,8 +47,7 @@
         <property name="showSql" value="true"/>
     </bean>
 
-    <bean id="defaultJpaDialect"
-          class="org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect"/>
+    <bean id="defaultJpaDialect" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect"/>
 
     <!-- ################################## -->
     <!-- FleaConfig TransAction Manager JPA -->
