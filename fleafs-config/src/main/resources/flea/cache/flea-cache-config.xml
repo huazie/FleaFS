@@ -44,9 +44,9 @@
 
     <!-- Flea缓存数据集 -->
     <cache-datas>
-        <cache-data type="auth" desc="Flea权限缓存数据所在组配置">authGroup</cache-data>
-        <cache-data type="jersey" desc="Flea Jersey缓存数据所在组配置">configGroup</cache-data>
-        <cache-data type="fleaFS" desc="FleaFS配置数据所在组配置">configGroup</cache-data>
+        <cache-data type="fleaAuth" desc="Flea Auth缓存数据所在组配置">authGroup</cache-data>
+        <cache-data type="fleaJersey" desc="Flea Jersey缓存数据所在组配置">configGroup</cache-data>
+        <cache-data type="fleaFrame" desc="Flea Frame配置数据所在组配置">configGroup</cache-data>
     </cache-datas>
 
     <!-- Flea缓存组集 -->
