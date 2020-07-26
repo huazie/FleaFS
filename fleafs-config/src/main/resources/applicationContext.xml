@@ -81,6 +81,29 @@
 
     <tx:annotation-driven transaction-manager="fleaConfigTransactionManager"/>
 
+    <!-- ################################## -->
+    <!-- FleaAuth TransAction Manager JPA -->
+    <!-- ################################## -->
+    <bean id="fleaAuthEntityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="defaultPersistenceManager"/>
+        <property name="persistenceUnitName" value="fleaauth"/>
+        <property name="persistenceProvider" ref="defaultPersistenceProvider"/>
+        <property name="jpaVendorAdapter" ref="defaultVendorAdapter"/>
+        <property name="jpaDialect" ref="defaultJpaDialect"/>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="eclipselink.weaving" value="false"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="fleaAuthTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="fleaAuthEntityManagerFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="fleaAuthTransactionManager"/>
+
     <!--
         配置缓存管理MemCachedSpringCacheManager
         配置缓存时间 configMap (key缓存对象名称 value缓存过期时间)
