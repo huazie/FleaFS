@@ -32,7 +32,7 @@
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
-                    <encoding>UTF-8</encoding>
+                    <encoding>${project.build.sourceEncoding}}</encoding>
                     <compilerArgs>
                         <arg>-g</arg>
                     </compilerArgs>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.7</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
 
