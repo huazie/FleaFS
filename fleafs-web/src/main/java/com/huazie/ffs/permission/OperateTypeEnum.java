@@ -11,7 +11,10 @@ public enum OperateTypeEnum {
 
     UPLOAD("UPLOAD", "上传"),
     DOWNLOAD("DOWNLOAD", "下载"),
-    DELETE("DELETE", "删除");
+    UPDATE("UPDATE", "更新"),
+    DELETE("DELETE", "删除"),
+    SEARCH("SEARCH", "搜索"),
+    VERSION("VERSION", "查看文件版本");
 
     private String type;
 
