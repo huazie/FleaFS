@@ -6,6 +6,9 @@ import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
 import com.huazie.ffs.pojo.upload.output.OutputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
 import com.huazie.frame.common.DateFormatEnum;
+import com.huazie.frame.common.exception.CommonException;
+import com.huazie.frame.common.slf4j.FleaLogger;
+import com.huazie.frame.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.frame.common.util.DateUtils;
 import com.huazie.frame.common.util.IOUtils;
 import com.huazie.frame.common.util.RandomCode;
@@ -13,12 +16,11 @@ import com.huazie.frame.common.util.StringUtils;
 import com.huazie.frame.db.common.exception.ServiceException;
 import com.huazie.frame.jersey.common.FleaJerseyManager;
 import com.huazie.frame.jersey.common.data.FleaFileObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * <p> Flea上传服务实现类 </p>
@@ -30,30 +32,34 @@ import java.io.FileInputStream;
 @Service
 public class FleaUploadSVImpl implements IFleaUploadSV {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FleaUploadSVImpl.class);
+    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleaUploadSVImpl.class);
 
     @Override
-    public OutputUploadAuthInfo uploadAuth(InputUploadAuthInfo input) throws Exception {
+    public OutputUploadAuthInfo uploadAuth(InputUploadAuthInfo input) throws CommonException {
 
+        Object obj = null;
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleaUploadSVImpl##uploadAuth(InputUploadAuthInfo) Start");
+            obj = new Object() {};
+            LOGGER.debug1(obj, "Start");
         }
 
         OutputUploadAuthInfo output = new OutputUploadAuthInfo();
         output.setToken(RandomCode.toUUID());
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleaUploadSVImpl##uploadAuth(InputUploadAuthInfo) End");
+            LOGGER.debug1(obj, "End");
         }
 
         return output;
     }
 
     @Override
-    public OutputFileUploadInfo fileUpload(InputFileUploadInfo input) throws Exception {
+    public OutputFileUploadInfo fileUpload(InputFileUploadInfo input) throws CommonException {
 
+        Object obj = null;
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleaUploadSVImpl##fileUpload(InputFileUploadInfo) Start");
+            obj = new Object() {};
+            LOGGER.debug1(obj, "Start");
         }
 
         String token = input.getToken();
@@ -67,12 +73,16 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         File uploadFile = fileObject.getFile();
 
         String fileId = DateUtils.date2String(null, DateFormatEnum.YYYYMMDD) + RandomCode.toUUID();
-        IOUtils.toFile(new FileInputStream(uploadFile), "E:\\" + fileId + "_" +fileName);
+        try {
+            IOUtils.toFile(new FileInputStream(uploadFile), "E:\\" + fileId + "_" +fileName);
+        } catch (FileNotFoundException e) {
+
+        }
         OutputFileUploadInfo outputFileUploadInfo = new OutputFileUploadInfo();
         outputFileUploadInfo.setFileId(fileId);
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("FleaUploadSVImpl##fileUpload(InputFileUploadInfo) Start");
+            LOGGER.debug1(obj, "End");
         }
         return outputFileUploadInfo;
     }

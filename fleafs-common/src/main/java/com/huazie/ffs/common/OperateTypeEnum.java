@@ -1,4 +1,4 @@
-package com.huazie.ffs.permission;
+package com.huazie.ffs.common;
 
 /**
  * 操作类型枚举，定义了文件管理的各个操作类型

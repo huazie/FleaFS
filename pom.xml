@@ -115,6 +115,8 @@
         <module>fleafs-web</module>
         <module>fleafs-config</module>
         <module>fleafs-pojo</module>
+        <module>fleafs-business</module>
+        <module>fleafs-common</module>
     </modules>
 
 </project>

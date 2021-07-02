@@ -25,3 +25,5 @@ hs_err_pid*
 fleafs-web/target/
 fleafs-config/target/
 fleafs-pojo/target/
+fleafs-business/target/
+fleafs-common/target/
