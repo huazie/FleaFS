@@ -11,12 +11,18 @@ Flea文件服务器，支持各系统接入，文件分布式管理。
 >5. 文件搜索
 >6. 版本查询
 
-#### 软件架构
-1. Flea RESTful接口服务【基于Jersey开发】
-2. Flea FrameWork【提供Cache、DB、Auth、Flea-Jersey】
-3. JPA【EclipseLink】
-4. MySQL
-5. Spring
+#### 架构
+1. FastDFS【分布式文件存储】
+2. Flea FrameWork
+   > Flea Auth（统一授权）
+   
+   > Flea Cache（整合MemCached和Redis接入）
+   
+   > Flea DB（JPA接入）
+   
+   > Flea Jersey（基于Jersey开发的REST式的Web服务）
+3. MySQL【文件服务器基础表，详见[FleaFS-TABLE.md](./FleaFS-TABLE.md)】
+4. Spring【依赖注入、JPA事物管理、缓存管理】
 
 #### 参与贡献
 1. huazie
