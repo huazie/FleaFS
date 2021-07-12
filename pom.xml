@@ -19,7 +19,7 @@
 
     <properties>
         <jdk.version>1.7</jdk.version>
-        <fleaframe.version>1.0.0</fleaframe.version>
+        <fleaframe.version>1.1.0</fleaframe.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -32,7 +32,7 @@
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
-                    <encoding>UTF-8</encoding>
+                    <encoding>${project.build.sourceEncoding}}</encoding>
                     <compilerArgs>
                         <arg>-g</arg>
                     </compilerArgs>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.7</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -115,6 +115,8 @@
         <module>fleafs-web</module>
         <module>fleafs-config</module>
         <module>fleafs-pojo</module>
+        <module>fleafs-business</module>
+        <module>fleafs-common</module>
     </modules>
 
 </project>

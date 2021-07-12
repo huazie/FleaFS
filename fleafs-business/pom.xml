@@ -7,37 +7,45 @@
         <groupId>com.huazie.ffs</groupId>
         <version>1.0.0</version>
     </parent>
-    <name>FLEA FS WEB</name>
+    <name>FLEA FS BUSINESS</name>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>fleafs-web</artifactId>
-    <packaging>war</packaging>
+    <artifactId>fleafs-business</artifactId>
+    <packaging>jar</packaging>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.9</version>
+                <!-- 单独执行单元测试
                 <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
+                    <skipTests>false</skipTests>
+                </configuration> -->
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
 
-        <!-- FLEA FS CONFIG -->
+        <!-- FLEA FS COMMON-->
         <dependency>
             <groupId>${parent.groupId}</groupId>
-            <artifactId>fleafs-config</artifactId>
+            <artifactId>fleafs-common</artifactId>
             <version>${parent.version}</version>
         </dependency>
 
-        <!-- FLEA FS BUSINESS-->
+        <!-- FLEA FS POJO-->
         <dependency>
             <groupId>${parent.groupId}</groupId>
-            <artifactId>fleafs-business</artifactId>
+            <artifactId>fleafs-pojo</artifactId>
             <version>${parent.version}</version>
         </dependency>
 
