@@ -35,6 +35,14 @@
 
     <dependencies>
 
+        <!-- FLEA FS CONFIG -->
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>fleafs-config</artifactId>
+            <version>${parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- FLEA FS COMMON-->
         <dependency>
             <groupId>${parent.groupId}</groupId>

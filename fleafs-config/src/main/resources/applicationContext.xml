@@ -33,8 +33,8 @@
         <property name="persistenceXmlLocations">
             <!-- 可以配置多个持久单元 -->
             <list>
-                <value>classpath:META-INF/fleaconfig-persistence.xml</value>
                 <value>classpath:META-INF/fleaauth-persistence.xml</value>
+                <value>classpath:META-INF/fleafsconfig-persistence.xml</value>
             </list>
         </property>
     </bean>
@@ -103,38 +103,6 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="fleaAuthTransactionManager"/>
-
-    <!--
-        配置缓存管理MemCachedSpringCacheManager
-        配置缓存时间 configMap (key缓存对象名称 value缓存过期时间)
-    -->
-    <bean id="memCachedSpringCacheManager" class="com.huazie.frame.cache.memcached.MemCachedSpringCacheManager">
-        <property name="configMap">
-            <map>
-                <entry key="fleaparadetail" value="86400"/>
-                <entry key="fleajerseyi18nerrormapping" value="86400" />
-                <entry key="fleajerseyresservice" value="86400" />
-                <entry key="fleajerseyresclient" value="86400" />
-                <entry key="fleajerseyresource" value="86400" />
-            </map>
-        </property>
-    </bean>
-
-    <!--
-        配置缓存管理RedisSpringCacheManager
-        配置缓存时间 configMap (key缓存对象名称 value缓存过期时间)
-    -->
-    <bean id="redisSpringCacheManager" class="com.huazie.frame.cache.redis.RedisSpringCacheManager">
-        <property name="configMap">
-            <map>
-                <entry key="fleaparadetail" value="86400"/>
-                <entry key="fleajerseyi18nerrormapping" value="86400" />
-                <entry key="fleajerseyresservice" value="86400" />
-                <entry key="fleajerseyresclient" value="86400" />
-                <entry key="fleajerseyresource" value="86400" />
-            </map>
-        </property>
-    </bean>
 
     <!-- 配置核心Flea缓存管理类 RedisSpringCacheManager -->
     <bean id="coreSpringCacheManager" class="com.huazie.frame.cache.core.CoreSpringCacheManager" />
