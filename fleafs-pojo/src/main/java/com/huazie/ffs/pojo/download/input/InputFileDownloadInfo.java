@@ -5,7 +5,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.io.Serializable;
 
 /**
- * <p> 文件下载业务入参 </p>
+ * 文件下载业务入参
  *
  * @author huazie
  * @version 1.0.0

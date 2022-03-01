@@ -5,7 +5,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.io.Serializable;
 
 /**
- * <p> 上传鉴权业务出参定义 </p>
+ * 上传鉴权业务出参定义
  *
  * @author huazie
  * @version 1.0.0

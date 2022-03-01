@@ -5,17 +5,17 @@ import com.huazie.ffs.pojo.upload.input.InputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
 import com.huazie.ffs.pojo.upload.output.OutputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
-import com.huazie.frame.common.DateFormatEnum;
-import com.huazie.frame.common.exception.CommonException;
-import com.huazie.frame.common.slf4j.FleaLogger;
-import com.huazie.frame.common.slf4j.impl.FleaLoggerProxy;
-import com.huazie.frame.common.util.DateUtils;
-import com.huazie.frame.common.util.IOUtils;
-import com.huazie.frame.common.util.RandomCode;
-import com.huazie.frame.common.util.StringUtils;
-import com.huazie.frame.db.common.exception.ServiceException;
-import com.huazie.frame.jersey.common.FleaJerseyManager;
-import com.huazie.frame.jersey.common.data.FleaFileObject;
+import com.huazie.fleaframework.common.DateFormatEnum;
+import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
+import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.IOUtils;
+import com.huazie.fleaframework.common.util.RandomCode;
+import com.huazie.fleaframework.common.util.StringUtils;
+import com.huazie.fleaframework.db.common.exception.ServiceException;
+import com.huazie.fleaframework.jersey.common.FleaJerseyManager;
+import com.huazie.fleaframework.jersey.common.data.FleaFileObject;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -23,7 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 /**
- * <p> Flea上传服务实现类 </p>
+ * Flea上传服务实现类
  *
  * @author huazie
  * @version 1.0.0

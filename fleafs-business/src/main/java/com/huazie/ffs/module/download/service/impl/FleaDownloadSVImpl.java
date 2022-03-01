@@ -5,21 +5,21 @@ import com.huazie.ffs.pojo.download.input.InputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.input.InputFileDownloadInfo;
 import com.huazie.ffs.pojo.download.output.OutputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.output.OutputFileDownloadInfo;
-import com.huazie.frame.common.DateFormatEnum;
-import com.huazie.frame.common.exception.CommonException;
-import com.huazie.frame.common.slf4j.FleaLogger;
-import com.huazie.frame.common.slf4j.impl.FleaLoggerProxy;
-import com.huazie.frame.common.util.DateUtils;
-import com.huazie.frame.common.util.RandomCode;
-import com.huazie.frame.common.util.StringUtils;
-import com.huazie.frame.db.common.exception.ServiceException;
-import com.huazie.frame.jersey.common.FleaJerseyManager;
+import com.huazie.fleaframework.common.DateFormatEnum;
+import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
+import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.RandomCode;
+import com.huazie.fleaframework.common.util.StringUtils;
+import com.huazie.fleaframework.db.common.exception.ServiceException;
+import com.huazie.fleaframework.jersey.common.FleaJerseyManager;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 
 /**
- * <p> Flea下载服务实现类 </p>
+ * Flea下载服务实现类
  *
  * @author huazie
  * @version 1.0.0

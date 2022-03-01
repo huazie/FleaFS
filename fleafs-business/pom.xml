@@ -37,30 +37,36 @@
 
         <!-- FLEA FS CONFIG -->
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>fleafs-config</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
             <scope>test</scope>
         </dependency>
 
         <!-- FLEA FS COMMON-->
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>fleafs-common</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <!-- FLEA FS POJO-->
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>fleafs-pojo</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- FLEA FRAME JERSEY SERVER-->
+        <!-- FLEA JERSEY SERVER-->
         <dependency>
-            <groupId>com.huazie.frame</groupId>
-            <artifactId>flea-frame-jersey-server</artifactId>
+            <groupId>com.huazie.fleaframework</groupId>
+            <artifactId>flea-jersey-server</artifactId>
+        </dependency>
+
+        <!-- 数据库JDBC连接相关 （MySQL的JDBC驱动）-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
     </dependencies>

@@ -1,5 +1,7 @@
 package com.huazie.ffs.common.util;
 
+import com.huazie.fleaframework.common.slf4j.FleaLogger;
+import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import org.apache.commons.io.FilenameUtils;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.ClientGlobal;
@@ -7,8 +9,6 @@ import org.csource.fastdfs.StorageClient1;
 import org.csource.fastdfs.StorageServer;
 import org.csource.fastdfs.TrackerClient;
 import org.csource.fastdfs.TrackerServer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class FastDFSClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FastDFSClient.class);
+    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FastDFSClient.class);
 
     private static final String CONF_FILENAME = "fdfs_client.conf";
     private static StorageClient1 storageClient1 = null;
@@ -75,12 +75,9 @@ public class FastDFSClient {
             NameValuePair[] meta_list = null;
             fis = new FileInputStream(file);
 
-            byte[] file_buff = null;
-            if (fis != null) {
-                int len = fis.available();
-                file_buff = new byte[len];
-                fis.read(file_buff);
-            }
+            int len = fis.available();
+            byte[] file_buff = new byte[len];
+            fis.read(file_buff);
 
             if (metaList != null) {
                 meta_list = new NameValuePair[metaList.size()];

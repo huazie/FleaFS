@@ -19,8 +19,9 @@
 
     <properties>
         <jdk.version>1.7</jdk.version>
-        <fleaframe.version>1.1.0</fleaframe.version>
+        <fleaframework.version>2.0.0</fleaframework.version>
         <fastdfs.version>1.27</fastdfs.version>
+        <mysql.version>5.1.25</mysql.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -33,7 +34,7 @@
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
-                    <encoding>${project.build.sourceEncoding}}</encoding>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <compilerArgs>
                         <arg>-g</arg>
                     </compilerArgs>
@@ -82,11 +83,11 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- FLEA FRAME -->
+            <!-- FLEA FRAMEWORK -->
             <dependency>
-                <groupId>com.huazie.frame</groupId>
-                <artifactId>flea-frame-bom</artifactId>
-                <version>${fleaframe.version}</version>
+                <groupId>com.huazie.fleaframework</groupId>
+                <artifactId>flea-framework-bom</artifactId>
+                <version>${fleaframework.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -96,6 +97,13 @@
                 <groupId>org.csource</groupId>
                 <artifactId>fastdfs-client-java</artifactId>
                 <version>${fastdfs.version}</version>
+            </dependency>
+
+            <!-- 数据库JDBC连接相关 （MySQL的JDBC驱动）-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

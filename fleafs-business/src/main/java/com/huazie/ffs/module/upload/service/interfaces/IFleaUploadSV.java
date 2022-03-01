@@ -4,10 +4,10 @@ import com.huazie.ffs.pojo.upload.input.InputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
 import com.huazie.ffs.pojo.upload.output.OutputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
-import com.huazie.frame.common.exception.CommonException;
+import com.huazie.fleaframework.common.exception.CommonException;
 
 /**
- * <p> Flea上传服务接口 </p>
+ * Flea上传服务接口
  *
  * @author huazie
  * @version 1.0.0
@@ -16,7 +16,7 @@ import com.huazie.frame.common.exception.CommonException;
 public interface IFleaUploadSV {
 
     /**
-     * <p> 上传授权 </p>
+     * 上传授权
      *
      * @param input 上传授权业务入参
      * @return 上传授权业务出参
@@ -26,7 +26,7 @@ public interface IFleaUploadSV {
     OutputUploadAuthInfo uploadAuth(InputUploadAuthInfo input) throws CommonException;
 
     /**
-     * <p> 文件上传 </p>
+     * 文件上传
      *
      * @param input 文件上传入参（包含上传鉴权令牌）
      * @return 文件上传出参（包含文件编号）

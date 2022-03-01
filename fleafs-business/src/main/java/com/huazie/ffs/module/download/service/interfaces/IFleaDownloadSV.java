@@ -4,10 +4,10 @@ import com.huazie.ffs.pojo.download.input.InputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.input.InputFileDownloadInfo;
 import com.huazie.ffs.pojo.download.output.OutputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.output.OutputFileDownloadInfo;
-import com.huazie.frame.common.exception.CommonException;
+import com.huazie.fleaframework.common.exception.CommonException;
 
 /**
- * <p> Flea下载服务接口 </p>
+ * Flea下载服务接口
  *
  * @author huazie
  * @version 1.0.0
@@ -16,7 +16,7 @@ import com.huazie.frame.common.exception.CommonException;
 public interface IFleaDownloadSV {
 
     /**
-     * <p> 下载授权 </p>
+     * 下载授权
      *
      * @param input 下载授权业务入参
      * @return 下载授权业务出参
@@ -26,7 +26,7 @@ public interface IFleaDownloadSV {
     OutputDownloadAuthInfo downloadAuth(InputDownloadAuthInfo input) throws CommonException;
 
     /**
-     * <p> 文件下载 </p>
+     * 文件下载
      *
      * @param input 文件下载业务入参
      * @return 文件下载业务出参

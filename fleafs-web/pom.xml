@@ -29,22 +29,22 @@
 
         <!-- FLEA FS CONFIG -->
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>fleafs-config</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <!-- FLEA FS BUSINESS-->
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>fleafs-business</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- FLEA FRAME JERSEY SERVER-->
+        <!-- FLEA JERSEY SERVER-->
         <dependency>
-            <groupId>com.huazie.frame</groupId>
-            <artifactId>flea-frame-jersey-server</artifactId>
+            <groupId>com.huazie.fleaframework</groupId>
+            <artifactId>flea-jersey-server</artifactId>
         </dependency>
 
     </dependencies>

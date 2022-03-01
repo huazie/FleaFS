@@ -13,7 +13,9 @@
        default-autowire="byName" default-lazy-init="false">
 
     <!-- 自动扫描-->
-    <context:component-scan base-package="com.huazie.**.dao.impl,com.huazie.**.service.impl,com.huazie.**.web,com.huazie.**.bean"/>
+    <context:component-scan base-package="com.huazie.**.dao.impl,com.huazie.**.service.impl,com.huazie.**.web,com.huazie.**.bean,com.huazie.**.aspect"/>
+
+    <bean id="fleaApplicationContext" class="com.huazie.fleaframework.common.FleaApplicationContext" lazy-init="false"/>
 
     <!--
         读取的配置文件
@@ -35,6 +37,11 @@
             <list>
                 <value>classpath:META-INF/fleaauth-persistence.xml</value>
                 <value>classpath:META-INF/fleafsconfig-persistence.xml</value>
+                <value>classpath:META-INF/fleafs-persistence.xml</value>
+                <value>classpath:META-INF/fleafs1-persistence.xml</value>
+                <value>classpath:META-INF/fleafs2-persistence.xml</value>
+                <value>classpath:META-INF/fleafs3-persistence.xml</value>
+                <value>classpath:META-INF/fleafs4-persistence.xml</value>
             </list>
         </property>
     </bean>
@@ -59,7 +66,7 @@
         <property dbName="user" value="${mysql.fleaconfig.user}" />
         <property dbName="password" value="${mysql.fleaconfig.password}" />
     </bean> -->
-    <bean id="fleaConfigEntityManagerFactory"
+    <bean id="fleaFSConfigEntityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitManager" ref="defaultPersistenceManager"/>
         <property name="persistenceUnitName" value="fleaconfig"/>
@@ -71,18 +78,19 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
             </map>
         </property>
     </bean>
 
-    <bean id="fleaConfigTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="fleaConfigEntityManagerFactory"/>
+    <bean id="fleaFSConfigTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="fleaFSConfigEntityManagerFactory"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="fleaConfigTransactionManager"/>
+    <tx:annotation-driven transaction-manager="fleaFSConfigTransactionManager"/>
 
     <!-- ################################## -->
-    <!-- FleaAuth TransAction Manager JPA -->
+    <!-- FleaAuth TransAction Manager JPA   -->
     <!-- ################################## -->
     <bean id="fleaAuthEntityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -94,6 +102,7 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
             </map>
         </property>
     </bean>
@@ -104,13 +113,134 @@
 
     <tx:annotation-driven transaction-manager="fleaAuthTransactionManager"/>
 
+    <!-- ################################## -->
+    <!-- FleaFS TransAction Manager JPA     -->
+    <!-- ################################## -->
+    <bean id="fleaFSEntityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="defaultPersistenceManager"/>
+        <property name="persistenceUnitName" value="fleafs"/>
+        <property name="persistenceProvider" ref="defaultPersistenceProvider"/>
+        <property name="jpaVendorAdapter" ref="defaultVendorAdapter"/>
+        <property name="jpaDialect" ref="defaultJpaDialect"/>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="fleaFSTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="fleaFSEntityManagerFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="fleaFSTransactionManager"/>
+
+    <!-- ################################## -->
+    <!-- FleaFS1 TransAction Manager JPA    -->
+    <!-- ################################## -->
+    <bean id="fleaFSEntityManagerFactory1"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="defaultPersistenceManager"/>
+        <property name="persistenceUnitName" value="fleafs1"/>
+        <property name="persistenceProvider" ref="defaultPersistenceProvider"/>
+        <property name="jpaVendorAdapter" ref="defaultVendorAdapter"/>
+        <property name="jpaDialect" ref="defaultJpaDialect"/>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="fleaFSTransactionManager1" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="fleaFSEntityManagerFactory1"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="fleaFSTransactionManager1"/>
+
+    <!-- ################################## -->
+    <!-- FleaFS2 TransAction Manager JPA    -->
+    <!-- ################################## -->
+    <bean id="fleaFSEntityManagerFactory2"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="defaultPersistenceManager"/>
+        <property name="persistenceUnitName" value="fleafs2"/>
+        <property name="persistenceProvider" ref="defaultPersistenceProvider"/>
+        <property name="jpaVendorAdapter" ref="defaultVendorAdapter"/>
+        <property name="jpaDialect" ref="defaultJpaDialect"/>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="fleaFSTransactionManager2" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="fleaFSEntityManagerFactory2"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="fleaFSTransactionManager2"/>
+
+    <!-- ################################## -->
+    <!-- FleaFS3 TransAction Manager JPA    -->
+    <!-- ################################## -->
+    <bean id="fleaFSEntityManagerFactory3"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="defaultPersistenceManager"/>
+        <property name="persistenceUnitName" value="fleafs3"/>
+        <property name="persistenceProvider" ref="defaultPersistenceProvider"/>
+        <property name="jpaVendorAdapter" ref="defaultVendorAdapter"/>
+        <property name="jpaDialect" ref="defaultJpaDialect"/>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="fleaFSTransactionManager3" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="fleaFSEntityManagerFactory3"/>
+    </bean>
+
+    <!-- ################################## -->
+    <!-- FleaFS4 TransAction Manager JPA    -->
+    <!-- ################################## -->
+    <bean id="fleaFSEntityManagerFactory4"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="defaultPersistenceManager"/>
+        <property name="persistenceUnitName" value="fleafs4"/>
+        <property name="persistenceProvider" ref="defaultPersistenceProvider"/>
+        <property name="jpaVendorAdapter" ref="defaultVendorAdapter"/>
+        <property name="jpaDialect" ref="defaultJpaDialect"/>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.logging.thread" value="true"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="fleaFSTransactionManager4" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="fleaFSEntityManagerFactory4"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="fleaFSTransactionManager4"/>
+
     <!-- 配置核心Flea缓存管理类 RedisSpringCacheManager -->
-    <bean id="coreSpringCacheManager" class="com.huazie.frame.cache.core.CoreSpringCacheManager" />
+    <bean id="coreSpringCacheManager" class="com.huazie.fleaframework.cache.core.manager.CoreSpringCacheManager" />
 
     <!-- 开启缓存 -->
     <cache:annotation-driven cache-manager="coreSpringCacheManager" proxy-target-class="true"/>
 
     <!-- 导入调度任务 -->
     <!-- <import resource="spring-quartz.xml" /> -->
+
+    <!-- 织入使用注解定义的增强，需要引入AOP命名空间 -->
+    <aop:aspectj-autoproxy />
 
 </beans>

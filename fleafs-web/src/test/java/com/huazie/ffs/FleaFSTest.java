@@ -1,6 +1,6 @@
 package com.huazie.ffs;
 
-import com.huazie.frame.cache.memcached.config.MemCachedConfig;
+import com.huazie.fleaframework.cache.memcached.config.MemCachedConfig;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

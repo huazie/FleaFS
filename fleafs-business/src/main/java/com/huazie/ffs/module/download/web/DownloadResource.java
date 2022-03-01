@@ -1,14 +1,14 @@
 package com.huazie.ffs.module.download.web;
 
-import com.huazie.frame.jersey.common.data.FleaJerseyRequest;
-import com.huazie.frame.jersey.common.data.FleaJerseyResponse;
-import com.huazie.frame.jersey.server.resource.JerseyPostResource;
-import com.huazie.frame.jersey.server.resource.impl.FleaJerseyFGetResource;
+import com.huazie.fleaframework.jersey.common.data.FleaJerseyRequest;
+import com.huazie.fleaframework.jersey.common.data.FleaJerseyResponse;
+import com.huazie.fleaframework.jersey.server.resource.JerseyPostResource;
+import com.huazie.fleaframework.jersey.server.resource.impl.FleaJerseyFGetResource;
 
 import javax.ws.rs.Path;
 
 /**
- * <p> 下载资源类 </p>
+ * 下载资源类
  *
  * @author huazie
  * @version 1.0.0
