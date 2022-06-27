@@ -2,20 +2,23 @@
 <persistence version="2.0"
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	
+
+	<!-- Flea配置库持久化单元名，固定值：fleaconfig -->
 	<persistence-unit name="fleaconfig" transaction-type="RESOURCE_LOCAL">
 		<!-- provider -->
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<!-- Connection JDBC -->
-		<class>com.huazie.frame.core.base.cfgdata.entity.FleaConfigData</class>
-		<class>com.huazie.frame.core.base.cfgdata.entity.FleaJerseyI18nErrorMapping</class>
-		<class>com.huazie.frame.core.base.cfgdata.entity.FleaJerseyResService</class>
-		<class>com.huazie.frame.core.base.cfgdata.entity.FleaJerseyResClient</class>
-		<class>com.huazie.frame.core.base.cfgdata.entity.FleaJerseyResource</class>
+		<class>com.huazie.fleaframework.core.base.cfgdata.entity.FleaConfigData</class>
+		<class>com.huazie.fleaframework.core.base.cfgdata.entity.FleaJerseyI18nErrorMapping</class>
+		<class>com.huazie.fleaframework.core.base.cfgdata.entity.FleaJerseyResClient</class>
+		<class>com.huazie.fleaframework.core.base.cfgdata.entity.FleaJerseyResService</class>
+		<class>com.huazie.fleaframework.core.base.cfgdata.entity.FleaJerseyResServiceLog</class>
+		<class>com.huazie.fleaframework.core.base.cfgdata.entity.FleaJerseyResource</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<!-- Flea配置库地址，可以自行调整 -->
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:mysql://localhost:3306/fleafsconfig?useUnicode=true&amp;characterEncoding=UTF-8" />
 			<property name="javax.persistence.jdbc.user" value="root" />
