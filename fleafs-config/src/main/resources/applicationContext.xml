@@ -12,7 +12,7 @@
     <!-- 自动扫描-->
     <context:component-scan base-package="com.huazie.**.dao.impl,com.huazie.**.service.impl,com.huazie.**.web,com.huazie.**.bean,com.huazie.**.aspect"/>
 
-    <bean id="fleaApplicationContext" class="com.huazie.fleaframework.common.FleaApplicationContext"/>
+    <bean id="fleaApplicationContext" class="com.huazie.fleaframework.common.FleaApplicationContext" lazy-init="false"/>
 
     <!-- 构建JPA实体工厂类所需要的Bean，固定 -->
     <import resource="spring/db/jpa/fleajpabeans-spring.xml"/>

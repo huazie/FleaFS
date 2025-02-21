@@ -1,6 +1,6 @@
 package com.huazie.ffs.base.dao.impl;
 
-import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.db.jpa.dao.impl.AbstractFleaJPADAOImpl;
 import com.huazie.fleaframework.db.jpa.transaction.FleaTransactional;
 
@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class FleaFSDAOImpl<T> extends AbstractFleaJPADAOImpl<T> {
 
-    @PersistenceContext(unitName = "fleafs")
-    protected EntityManager entityManager;
+    @PersistenceContext(unitName="fleafs")
+    private EntityManager entityManager;
 
     @Override
     @FleaTransactional("fleaFSTransactionManager")
@@ -27,8 +27,14 @@ public class FleaFSDAOImpl<T> extends AbstractFleaJPADAOImpl<T> {
     }
 
     @Override
-    @FleaTransactional("fleaFSTransactionManager")
+    @FleaTransactional(value = "fleaFSTransactionManager", unitName="fleafs")
     public boolean remove(long entityId) throws CommonException {
+        return super.remove(entityId);
+    }
+
+    @Override
+    @FleaTransactional(value = "fleaFSTransactionManager", unitName="fleafs")
+    public boolean remove(String entityId) throws CommonException {
         return super.remove(entityId);
     }
 
@@ -36,12 +42,6 @@ public class FleaFSDAOImpl<T> extends AbstractFleaJPADAOImpl<T> {
     @FleaTransactional("fleaFSTransactionManager")
     public boolean remove(T entity) throws CommonException {
         return super.remove(entity);
-    }
-
-    @Override
-    @FleaTransactional("fleaFSTransactionManager")
-    public boolean remove(String entityId) throws CommonException {
-        return super.remove(entityId);
     }
 
     @Override

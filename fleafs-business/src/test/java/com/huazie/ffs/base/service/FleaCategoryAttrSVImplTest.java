@@ -1,18 +1,17 @@
 package com.huazie.ffs.base.service;
 
+import com.huazie.ffs.base.category.FleaFSCategoryAttr;
 import com.huazie.ffs.base.entity.FleaCategoryAttr;
-import com.huazie.ffs.base.entity.FleaFileAttr;
 import com.huazie.ffs.base.service.interfaces.IFleaCategoryAttrSV;
-import com.huazie.ffs.base.service.interfaces.IFleaFileAttrSV;
-import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
-import com.huazie.fleaframework.common.util.DateUtils;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,40 +21,35 @@ import java.util.Set;
  * @version 1.0.0
  * @since 1.0.0
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class FleaCategoryAttrSVImplTest {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleaCategoryAttrSVImplTest.class);
 
-    private ApplicationContext applicationContext;
+    @Resource(name = "fleaCategoryAttrSV")
+    private IFleaCategoryAttrSV fleaCategoryAttrSV;
 
-    @Before
-    public void init() {
-        applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-        LOGGER.debug("ApplicationContext={}", applicationContext);
+    @Test
+    public void insertAuthCheckModeAttr() throws CommonException {
+        FleaFSCategoryAttr fleaFSCategoryAttr = new FleaFSCategoryAttr(fleaCategoryAttrSV);
+        fleaFSCategoryAttr.addAuthCheckModeAttr(1000L);
     }
 
     @Test
-    public void insertFleaCategoryAttr() {
-        try {
-            IFleaCategoryAttrSV fleaCategoryAttrSV = (IFleaCategoryAttrSV) applicationContext.getBean("fleaCategoryAttrSV");
-            FleaCategoryAttr fleaCategoryAttr = new FleaCategoryAttr();
-            fleaCategoryAttr.setCategoryId(10000L);
-            fleaCategoryAttr.setAttrCode("code_desc");
-            fleaCategoryAttr.setAttrDesc("测试");
-            fleaCategoryAttr.setCreateDate(DateUtils.getCurrentTime());
-            fleaCategoryAttr.setEffectiveDate(DateUtils.getCurrentTime());
-            fleaCategoryAttr.setExpiryDate(DateUtils.getExpiryTimeForever());
-            fleaCategoryAttr.setState(1);
+    public void insertLimitSystemUsersAttr() throws CommonException {
+        FleaFSCategoryAttr fleaFSCategoryAttr = new FleaFSCategoryAttr(fleaCategoryAttrSV);
+        fleaFSCategoryAttr.addLimitSystemUsersAttr(1000L);
+    }
 
-            fleaCategoryAttrSV.save(fleaCategoryAttr);
-        } catch (CommonException e) {
-            LOGGER.error("Exception:", e);
-        }
+    @Test
+    public void insertLimitOperationUsersAttr() throws CommonException {
+        FleaFSCategoryAttr fleaFSCategoryAttr = new FleaFSCategoryAttr(fleaCategoryAttrSV);
+        fleaFSCategoryAttr.addLimitOperationUsersAttr(1000L);
     }
 
     @Test
     public void queryFleaCategoryAttr() throws CommonException {
-        IFleaCategoryAttrSV fleaCategoryAttrSV = (IFleaCategoryAttrSV) applicationContext.getBean("fleaCategoryAttrSV");
         FleaCategoryAttr fleaCategoryAttr = new FleaCategoryAttr();
         fleaCategoryAttr.setAttrCode("code_desc");
         fleaCategoryAttr.setAttrDesc("测试");
@@ -64,5 +58,12 @@ public class FleaCategoryAttrSVImplTest {
         attrNames.add("fileId");
         List<FleaCategoryAttr> fleaCategoryAttrs =  fleaCategoryAttrSV.query(attrNames, fleaCategoryAttr);
         LOGGER.debug("FleaCategoryAttrs = {}", fleaCategoryAttrs);
+    }
+
+    @Test
+    public void deleteFleaCategoryAttr() throws CommonException {
+        for (long i = 0L; i <= 7L; i++) {
+            fleaCategoryAttrSV.remove(i + 1);
+        }
     }
 }

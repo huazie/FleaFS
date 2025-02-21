@@ -1,6 +1,8 @@
 package com.huazie.ffs.pojo.download.output;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -11,7 +13,12 @@ import java.io.Serializable;
  * @version 1.0.0
  * @since 1.0.0
  */
+@Getter
+@Setter
+@ToString
 public class OutputFileDownloadInfo implements Serializable {
+
+    private static final long serialVersionUID = 9049515424324327639L;
 
     private String uploadAcctId; // 文件上传账户编号
 
@@ -19,32 +26,4 @@ public class OutputFileDownloadInfo implements Serializable {
 
     private String uploadDate; // 文件上传日期
 
-    public String getUploadAcctId() {
-        return uploadAcctId;
-    }
-
-    public void setUploadAcctId(String uploadAcctId) {
-        this.uploadAcctId = uploadAcctId;
-    }
-
-    public String getUploadSystemAcctId() {
-        return uploadSystemAcctId;
-    }
-
-    public void setUploadSystemAcctId(String uploadSystemAcctId) {
-        this.uploadSystemAcctId = uploadSystemAcctId;
-    }
-
-    public String getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(String uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
 }

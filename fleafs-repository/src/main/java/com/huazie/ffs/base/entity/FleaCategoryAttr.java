@@ -1,7 +1,12 @@
 package com.huazie.ffs.base.entity;
 
+import com.huazie.fleaframework.common.EntityStateEnum;
 import com.huazie.fleaframework.common.FleaEntity;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +25,9 @@ import java.util.Date;
  * @version 1.0.0
  * @since 1.0.0
  */
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "flea_category_attr")
 public class FleaCategoryAttr extends FleaEntity {
@@ -65,96 +73,55 @@ public class FleaCategoryAttr extends FleaEntity {
     @Column(name = "remarks")
     private String remarks; // 备注信息
 
-    public Long getAttrId() {
-        return attrId;
+    /**
+     * 无参构造方法
+     *
+     * @since 1.0.0
+     */
+    public FleaCategoryAttr() {
     }
 
-    public void setAttrId(Long attrId) {
-        this.attrId = attrId;
+    /**
+     * 带参数的构造方法
+     *
+     * @param categoryId    类目编号
+     * @param attrCode      属性码
+     * @param attrValue     属性值
+     * @param attrDesc      属性描述
+     * @param remarks        备注
+     * @since 1.0.0
+     */
+    public FleaCategoryAttr(Long categoryId, String attrCode, String attrValue, String attrDesc, String remarks) {
+        this(categoryId, attrCode, attrValue, attrDesc, null, null, remarks);
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
+    /**
+     * 带参数的构造方法
+     *
+     * @param categoryId    类目编号
+     * @param attrCode      属性码
+     * @param attrValue     属性值
+     * @param attrDesc      属性描述
+     * @param effectiveDate 生效日期
+     * @param expiryDate    失效日期
+     * @param remarks       备注
+     * @since 1.0.0
+     */
+    public FleaCategoryAttr(Long categoryId, String attrCode, String attrValue, String attrDesc, Date effectiveDate, Date expiryDate, String remarks) {
         this.categoryId = categoryId;
-    }
-
-    public String getAttrCode() {
-        return attrCode;
-    }
-
-    public void setAttrCode(String attrCode) {
         this.attrCode = attrCode;
-    }
-
-    public String getAttrValue() {
-        return attrValue;
-    }
-
-    public void setAttrValue(String attrValue) {
         this.attrValue = attrValue;
-    }
-
-    public String getAttrDesc() {
-        return attrDesc;
-    }
-
-    public void setAttrDesc(String attrDesc) {
         this.attrDesc = attrDesc;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getDoneDate() {
-        return doneDate;
-    }
-
-    public void setDoneDate(Date doneDate) {
-        this.doneDate = doneDate;
-    }
-
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Date effectiveDate) {
+        this.state = EntityStateEnum.IN_USE.getState();
+        this.createDate = DateUtils.getCurrentTime();
+        if (ObjectUtils.isEmpty(effectiveDate)) {
+            effectiveDate = this.createDate;
+        }
         this.effectiveDate = effectiveDate;
-    }
-
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
+        if (ObjectUtils.isEmpty(expiryDate)) {
+            expiryDate = DateUtils.getExpiryTimeForever();
+        }
         this.expiryDate = expiryDate;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
         this.remarks = remarks;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
     }
 }

@@ -41,12 +41,6 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- FLEA JERSEY SERVER-->
-        <dependency>
-            <groupId>com.huazie.fleaframework</groupId>
-            <artifactId>flea-jersey-server</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

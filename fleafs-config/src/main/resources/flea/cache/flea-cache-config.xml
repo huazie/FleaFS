@@ -54,7 +54,7 @@
     <cache-datas>
         <!-- type="缓存数据类型" 对应 flea-cache.xml 中 <cache type="缓存数据类型" />  -->
         <cache-data type="fleaAuth" desc="Flea Auth缓存数据所在组配置">authGroup</cache-data>
-        <cache-data type="fleaFrame" desc="Flea Frame配置数据所在组配置">configGroup</cache-data>
+        <cache-data type="fleaFS" desc="Flea Frame配置数据所在组配置">configGroup</cache-data>
         <cache-data type="fleaJersey" desc="Flea Jersey配置数据所在组配置">configGroup</cache-data>
         <cache-data type="fleaDynamic" desc="Flea 动态数据缓存所在组配置">dynamicGroup</cache-data>
     </cache-datas>

@@ -1,10 +1,13 @@
 package com.huazie.ffs;
 
+import com.huazie.ffs.common.OperateTypeEnum;
 import com.huazie.fleaframework.cache.AbstractFleaCache;
 import com.huazie.fleaframework.cache.AbstractFleaCacheManager;
 import com.huazie.fleaframework.cache.common.CacheEnum;
 import com.huazie.fleaframework.cache.common.FleaCacheManagerFactory;
 import com.huazie.fleaframework.cache.memcached.config.MemCachedConfig;
+import com.huazie.fleaframework.jersey.common.filter.config.FleaJerseyFilterConfig;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +23,12 @@ public class FleaFSTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FleaFSTest.class);
 
+    @Before
+    public void init() {
+        // 设置 Jersey 过滤器链配置文件 路径
+        FleaJerseyFilterConfig.setFilePath("flea/jersey/fleafs-jersey-filter.xml");
+    }
+
     @Test
     public void testMemcachedConfig() {
         MemCachedConfig config = MemCachedConfig.getConfig();
@@ -28,16 +37,26 @@ public class FleaFSTest {
 
     @Test
     public void testCoreFleaCache() {
-        try {
-            AbstractFleaCacheManager manager = FleaCacheManagerFactory.getFleaCacheManager(CacheEnum.FleaCore.getName());
-            AbstractFleaCache cache = manager.getCache("fleajerseyi18nerrormapping");
-            LOGGER.debug("Cache={}", cache);
-            cache.get("jersey-filter-resource_jersey-filter-service_ERROR-AUTH-COMMON0000000008");
-            // cache.delete("jersey-filter-resource_jersey-filter-service_ERROR-AUTH-COMMON0000000008");
-            cache.getCacheKey();
-            LOGGER.debug(cache.getCacheName() + ">>>" + cache.getCacheDesc());
-        } catch (Exception e) {
-            LOGGER.error("Exception:", e);
-        }
+        AbstractFleaCacheManager manager = FleaCacheManagerFactory.getFleaCacheManager(CacheEnum.FleaCore.getName());
+        AbstractFleaCache cache = manager.getCache("fleajerseyresservice");
+        LOGGER.debug("Cache={}", cache);
+        cache.delete("FLEA_SERVICE_UPLOAD_AUTH_upload");
+        cache.getCacheKey();
+        LOGGER.debug(cache.getCacheName() + ">>>" + cache.getCacheDesc());
+    }
+
+    @Test
+    public void testJerseyFilterConfig() {
+        LOGGER.debug("before={}", FleaJerseyFilterConfig.getBeforeFilters());
+        LOGGER.debug("service={}", FleaJerseyFilterConfig.getServiceFilters());
+        LOGGER.debug("after={}", FleaJerseyFilterConfig.getAfterFilters());
+        LOGGER.debug("error={}", FleaJerseyFilterConfig.getErrorFilters());
+        LOGGER.debug("i18n-error-mapping={}", FleaJerseyFilterConfig.getI18nErrorMapping("ERROR-JERSEY-FILTER0000000003"));
+    }
+
+    @Test
+    public void test() {
+        OperateTypeEnum value = OperateTypeEnum.values()[6];
+        LOGGER.debug("value={}", value);
     }
 }
