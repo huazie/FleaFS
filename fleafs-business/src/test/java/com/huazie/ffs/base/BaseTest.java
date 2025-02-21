@@ -1,46 +1,48 @@
 package com.huazie.ffs.base;
 
+import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
+import com.huazie.fleaframework.core.base.cfgdata.bean.FleaConfigDataSpringBean;
 import com.huazie.fleaframework.core.base.cfgdata.entity.FleaConfigData;
 import com.huazie.fleaframework.core.base.cfgdata.service.interfaces.IFleaConfigDataSV;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
 
 /**
  * @author huazie
  * @version 1.1.0
  * @since 1.1.0
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class BaseTest {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(BaseTest.class);
 
-    private ApplicationContext applicationContext;
+    @Resource(name = "fleaConfigDataSV")
+    private IFleaConfigDataSV fleaConfigDataSV;
 
-    @Before
-    public void init() {
-        applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-        LOGGER.debug("ApplicationContext={}", applicationContext);
-    }
+    @Resource
+    private FleaConfigDataSpringBean fleaConfigDataSpringBean;
 
     @Test
-    public void getConfigDataById() throws Exception {
-        IFleaConfigDataSV sv = (IFleaConfigDataSV) applicationContext.getBean("fleaConfigDataSV");
-
-        FleaConfigData fleaConfigData = sv.query(1L);
+    public void getConfigDataById() throws CommonException {
+        FleaConfigData fleaConfigData = fleaConfigDataSV.query(1L);
         LOGGER.debug("FleaConfigData = {}", fleaConfigData);
     }
 
     @Test
-    public void getConfigData() {
-        IFleaConfigDataSV sv = (IFleaConfigDataSV) applicationContext.getBean("fleaConfigDataSV");
-        try {
-            sv.getConfigData("huazie", "huazie");
-        } catch (Exception e) {
-            LOGGER.error("Exception:", e);
-        }
+    public void getConfigData() throws CommonException {
+        fleaConfigDataSV.getConfigData("huazie", "huazie");
+    }
+
+    @Test
+    public void testConfigData() throws CommonException {
+        fleaConfigDataSpringBean.getConfigData("huazie", "huazie");
     }
 }

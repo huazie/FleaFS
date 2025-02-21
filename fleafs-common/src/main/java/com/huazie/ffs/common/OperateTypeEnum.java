@@ -9,12 +9,12 @@ package com.huazie.ffs.common;
  */
 public enum OperateTypeEnum {
 
-    UPLOAD("UPLOAD", "上传"),
-    DOWNLOAD("DOWNLOAD", "下载"),
-    UPDATE("UPDATE", "更新"),
-    DELETE("DELETE", "删除"),
-    SEARCH("SEARCH", "搜索"),
-    VERSION("VERSION", "查看文件版本");
+    UPLOAD("UPLOAD", "文件上传"),
+    DOWNLOAD("DOWNLOAD", "文件下载"),
+    UPDATE("UPDATE", "文件更新"),
+    DELETE("DELETE", "文件删除"),
+    SEARCH("SEARCH", "文件搜索"),
+    VERSION("VERSION", "版本管理");
 
     private String type;
 

@@ -1,6 +1,8 @@
 package com.huazie.ffs.pojo.download.output;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -11,23 +13,13 @@ import java.io.Serializable;
  * @version 1.0.0
  * @since 1.0.0
  */
+@Getter
+@Setter
+@ToString
 public class OutputDownloadAuthInfo implements Serializable {
 
     private static final long serialVersionUID = 5689920399219551237L;
 
     private String token; // 下载鉴权令牌
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
 
 }

@@ -37,9 +37,9 @@ public class FastDFSClient {
             LOGGER.info(" CONF_FILENAME:" + CONF_FILENAME);
             ClientGlobal.init(CONF_FILENAME);
             TrackerClient trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
-            TrackerServer trackerServer = trackerClient.getConnection();
+            TrackerServer trackerServer = trackerClient.getTrackerServer();
             if (trackerServer == null) {
-                LOGGER.error("getConnection return null");
+                LOGGER.error("getTrackerServer return null");
             }
             StorageServer storageServer = trackerClient.getStoreStorage(trackerServer);
             if (storageServer == null) {

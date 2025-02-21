@@ -4,7 +4,7 @@ import com.huazie.ffs.pojo.upload.input.InputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
 import com.huazie.ffs.pojo.upload.output.OutputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.output.OutputUploadAuthInfo;
-import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.exceptions.CommonException;
 
 /**
  * Flea上传服务接口

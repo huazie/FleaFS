@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2021-07-27 08:38:21
+Date: 2022-07-26 23:03:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `flea_category_attr`;
 CREATE TABLE `flea_category_attr` (
   `attr_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '属性编号',
   `category_id` int(10) NOT NULL COMMENT '类目编号',
-  `attr_code` varchar(50) NOT NULL COMMENT '属性码',
+  `attr_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '属性码',
   `attr_value` varchar(1024) DEFAULT NULL COMMENT '属性值',
   `attr_desc` varchar(1024) DEFAULT NULL COMMENT '属性描述',
   `state` tinyint(4) NOT NULL COMMENT '属性状态(0: 删除 1: 正常）',
@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `flea_file_attr`;
 CREATE TABLE `flea_file_attr` (
   `attr_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '属性编号',
   `file_id` varchar(64) NOT NULL COMMENT '文件编号',
-  `attr_code` varchar(50) NOT NULL COMMENT '属性码',
+  `attr_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '属性码',
   `attr_value` varchar(1024) DEFAULT NULL COMMENT '属性值',
   `attr_desc` varchar(1024) DEFAULT NULL COMMENT '属性描述',
   `state` tinyint(4) NOT NULL COMMENT '属性状态(0: 删除 1: 正常）',
@@ -70,12 +70,12 @@ CREATE TABLE `flea_file_attr` (
 DROP TABLE IF EXISTS `flea_file_category`;
 CREATE TABLE `flea_file_category` (
   `category_id` int(10) NOT NULL COMMENT '类目编号',
-  `category_code` varchar(32) NOT NULL COMMENT '类目编码',
+  `category_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '类目编码',
   `category_name` varchar(64) DEFAULT NULL COMMENT '类目名称',
   `parent_id` int(10) NOT NULL DEFAULT '-1' COMMENT '父类目编号',
   `encrypt_type` varchar(10) NOT NULL COMMENT '文件加密方式【AES、DES、NONE(无需加密)】',
   `max_file_size` bigint(20) NOT NULL DEFAULT '0' COMMENT '文件最大值【单位：MB】',
-  `operation_state` varchar(16) DEFAULT NULL COMMENT '操作状态【每一位代表一个文件管理操作的状态（0：关闭 1：启用）】',
+  `operation_state` varchar(16) DEFAULT NULL COMMENT '操作状态【每一位代表一个文件管理操作的启用状态（0：关闭 1：启用）】',
   `state` tinyint(4) NOT NULL COMMENT '类目状态(0: 删除 1: 正常）',
   `create_date` datetime NOT NULL COMMENT '创建日期',
   `done_date` datetime DEFAULT NULL COMMENT '修改日期',
@@ -101,11 +101,11 @@ CREATE TABLE `flea_file_info` (
   `file_size` bigint(20) NOT NULL COMMENT '文件大小【单位：B】',
   `file_size_desc` varchar(20) DEFAULT NULL COMMENT '文件大小描述',
   `file_version_id` int(11) NOT NULL COMMENT '文件版本编号',
-  `file_state` tinyint(2) NOT NULL COMMENT '文件状态【0: 待上传 1：待审核 2：使用中 3：审核不通过 4：删除】',
+  `file_state` tinyint(2) NOT NULL COMMENT '文件状态【0: 待上传 1：待审核 2：使用中 3：审核不通过 4：逻辑删除 5：物理删除】',
   `fastdfs_id` varchar(150) DEFAULT NULL COMMENT 'fastdfs文件编号',
   `secret_key` varchar(50) DEFAULT NULL COMMENT '密钥',
   `user_id` int(11) DEFAULT NULL COMMENT '操作用户编号',
-  `system_id` int(11) DEFAULT NULL COMMENT '系统用户编号',
+  `system_user_id` int(11) DEFAULT NULL COMMENT '系统用户编号',
   `state` tinyint(4) NOT NULL COMMENT '文件记录状态(0: 删除 1: 正常）',
   `create_date` datetime NOT NULL COMMENT '创建日期',
   `done_date` datetime DEFAULT NULL COMMENT '修改日期',
@@ -122,8 +122,8 @@ CREATE TABLE `flea_file_info` (
 -- ----------------------------
 DROP TABLE IF EXISTS `flea_file_version`;
 CREATE TABLE `flea_file_version` (
-  `version_id` int(11) NOT NULL COMMENT '版本编号',
-  `version_code` varchar(20) NOT NULL COMMENT '版本编码',
+  `version_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '版本编号',
+  `version_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '版本编码',
   `version_name` varchar(50) NOT NULL COMMENT '版本名称',
   `version_desc` varchar(255) DEFAULT NULL COMMENT '版本描述',
   `file_id` varchar(64) NOT NULL COMMENT '文件编号',
@@ -132,11 +132,11 @@ CREATE TABLE `flea_file_version` (
   `file_type` varchar(10) NOT NULL COMMENT '文件类型',
   `file_size` bigint(20) NOT NULL COMMENT '文件大小【单位：B】',
   `file_size_desc` varchar(20) DEFAULT NULL COMMENT '文件大小描述',
-  `file_state` tinyint(2) NOT NULL COMMENT '文件状态【0: 待上传 1：待审核 2：使用中 3：审核不通过 4：删除】',
+  `file_state` tinyint(2) NOT NULL COMMENT '文件状态【0: 待上传 1：待审核 2：使用中 3：审核不通过 4：逻辑删除 5：物理删除】',
   `fastdfs_id` varchar(150) DEFAULT NULL COMMENT 'fastdfs文件编号',
   `secret_key` varchar(50) DEFAULT NULL COMMENT '密钥',
   `user_id` int(11) DEFAULT NULL COMMENT '操作用户编号',
-  `system_id` int(11) DEFAULT NULL COMMENT '系统用户编号',
+  `system_user_id` int(11) DEFAULT NULL COMMENT '系统用户编号',
   `state` tinyint(4) NOT NULL COMMENT '文件记录状态(0: 删除 1: 正常）',
   `create_date` datetime NOT NULL COMMENT '创建日期',
   `done_date` datetime DEFAULT NULL COMMENT '修改日期',
@@ -158,11 +158,13 @@ CREATE TABLE `flea_token_info` (
   `token_id` varchar(48) NOT NULL COMMENT '鉴权令牌',
   `file_id` varchar(48) NOT NULL COMMENT '文件编号',
   `operation_type` varchar(16) NOT NULL COMMENT '操作类型',
-  `user_id` int(11) DEFAULT NULL COMMENT '用户编号',
-  `system_user_id` int(11) DEFAULT NULL COMMENT '系统用户编号',
   `state` tinyint(4) NOT NULL COMMENT '文件记录状态(0: 删除 1: 正常）',
+  `user_id` int(11) DEFAULT NULL COMMENT '操作用户编号',
+  `system_user_id` int(11) DEFAULT NULL COMMENT '系统用户编号',
   `create_date` datetime NOT NULL COMMENT '创建日期',
   `done_date` datetime DEFAULT NULL COMMENT '修改日期',
+  `effective_date` datetime NOT NULL COMMENT '生效日期',
+  `expiry_date` datetime NOT NULL COMMENT '失效日期',
   `remarks` varchar(1024) DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`token_id`),
   KEY `INDEX_FILE_ID` (`file_id`) USING BTREE

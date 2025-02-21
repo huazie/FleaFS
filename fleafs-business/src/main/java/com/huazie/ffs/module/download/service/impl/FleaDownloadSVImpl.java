@@ -6,13 +6,13 @@ import com.huazie.ffs.pojo.download.input.InputFileDownloadInfo;
 import com.huazie.ffs.pojo.download.output.OutputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.output.OutputFileDownloadInfo;
 import com.huazie.fleaframework.common.DateFormatEnum;
-import com.huazie.fleaframework.common.exception.CommonException;
+import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleaframework.common.util.DateUtils;
 import com.huazie.fleaframework.common.util.RandomCode;
 import com.huazie.fleaframework.common.util.StringUtils;
-import com.huazie.fleaframework.db.common.exception.ServiceException;
+import com.huazie.fleaframework.db.common.exceptions.ServiceException;
 import com.huazie.fleaframework.jersey.common.FleaJerseyManager;
 import org.springframework.stereotype.Service;
 

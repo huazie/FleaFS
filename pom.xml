@@ -20,8 +20,9 @@
     <properties>
         <jdk.version>1.7</jdk.version>
         <fleaframework.version>2.0.0</fleaframework.version>
-        <fastdfs.version>1.27</fastdfs.version>
+        <fastdfs.version>1.29-SNAPSHOT</fastdfs.version>
         <mysql.version>5.1.25</mysql.version>
+        <lombok.version>1.18.24</lombok.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -105,6 +106,13 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -118,6 +126,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <modules>
@@ -126,6 +140,7 @@
         <module>fleafs-pojo</module>
         <module>fleafs-business</module>
         <module>fleafs-common</module>
+        <module>fleafs-repository</module>
     </modules>
 
 </project>
