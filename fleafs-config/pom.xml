@@ -12,4 +12,21 @@
     <artifactId>fleafs-config</artifactId>
     <packaging>jar</packaging>
 
+    <!-- 添加这个只是为了applicationContext.xml中内容不报错，
+     打包时需要将这里注释掉-->
+    <!--<dependencies>-->
+        <!--&lt;!&ndash; FLEA FS BUSINESS&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>${project.parent.groupId}</groupId>-->
+            <!--<artifactId>fleafs-business</artifactId>-->
+            <!--<version>${project.parent.version}</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; FLEA JERSEY SERVER&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.huazie.fleaframework</groupId>-->
+            <!--<artifactId>flea-jersey-server</artifactId>-->
+        <!--</dependency>-->
+    <!--</dependencies>-->
+
 </project>

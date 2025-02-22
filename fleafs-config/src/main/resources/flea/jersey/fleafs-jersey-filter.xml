@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jersey>
+
+    <filter-chain>
+
+        <!-- 前置过滤器链 -->
+        <before>
+            <filter clazz="com.huazie.ffs.jersey.filter.FleaFSAuthCheckFilter" order="3" desc="FleaFS业务授权校验过滤器"/>
+        </before>
+
+    </filter-chain>
+
+    <!-- flea jersey 接口过滤器公共配置文件引入 -->
+    <import resource="flea/jersey/flea-jersey-filter.xml"/>
+
+</jersey>
