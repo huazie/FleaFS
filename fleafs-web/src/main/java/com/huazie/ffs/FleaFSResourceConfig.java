@@ -22,7 +22,7 @@ public class FleaFSResourceConfig extends FleaResourceConfig {
      */
     public FleaFSResourceConfig() {
         super();
-        // 设置 Jersey 过滤器链配置文件 路径
+        // 设置 Jersey 过滤器配置文件 路径
         FleaJerseyFilterConfig.setFilePath("flea/jersey/fleafs-jersey-filter.xml");
     }
 }

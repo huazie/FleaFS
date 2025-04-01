@@ -1,7 +1,8 @@
 package com.huazie.ffs;
 
 import com.huazie.ffs.common.util.FastDFSClient;
-import org.apache.commons.io.FileUtils;
+import com.huazie.ffs.common.util.FileUtils;
+import com.huazie.fleaframework.common.util.IOUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,7 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * <p></p>
+ * FastDFS客户端测试
  *
  * @author huazie
  * @version 1.0.0
@@ -22,25 +23,22 @@ public class FastDFSClientTest {
 
     @Test
     public void uploadFile() {
-
-        File file = new File("F:\\FileRecv\\project\\FleaFS\\fleafs-web\\src\\main\\resources\\file\\绿色田园风光.jpg");
+        InputStream inputStream = IOUtils.getInputStreamFromClassPath("file/绿色田园风光.jpg");
         String fileName = "绿色田园风光.jpg";
-        String fileId = FastDFSClient.uploadFile(file, fileName);
+        String fileId = FastDFSClient.uploadFile(inputStream, fileName);
         LOGGER.debug("FILE_ID : {}", fileId);
     }
 
     @Test
     public void downloadFile() throws Exception {
-        InputStream inputStream = FastDFSClient.downloadFile("group1/M00/00/00/wKhdgF1k4l-ATxyUAARILn22Mjc649.jpg");
+        InputStream inputStream = FastDFSClient.downloadFile("group1/M00/00/00/rBbMOWfqU3CAH_cdAARILk7ifpI048.jpg");
         File file = new File("E:\\绿色.jpg");
         FileUtils.copyInputStreamToFile(inputStream, file);
     }
 
     @Test
     public void deleteFile() {
-        int result = FastDFSClient.deleteFile("group1/M00/00/00/wKhdgF1kmzWAa49PAABI_vi2v8M190.jpg");
-        LOGGER.debug("RESULT : {}", result);
-
+        FastDFSClient.deleteFile("group1/M00/00/00/rBbMOWfqU3CAH_cdAARILk7ifpI048.jpg");
     }
 
 }
