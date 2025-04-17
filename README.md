@@ -23,7 +23,7 @@ Flea文件服务器，支持各授权系统接入，文件分布式管理。
    > Flea DB（JPA接入）
    
    > Flea Jersey（基于Jersey开发的REST式的Web服务）
-3. MySQL【文件服务器基础表，详见[FleaFS-TABLE.md](./FleaFS-TABLE.md)】
+3. MySQL【文件服务器分库分表，详见[FleaFS-DB.md](FleaFS-DB.md)】
 4. Spring【依赖注入、JPA事物管理、缓存管理】
 
 ## 安装和入门
