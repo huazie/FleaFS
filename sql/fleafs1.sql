@@ -38,7 +38,7 @@ CREATE TABLE `flea_file_info` (
   `file_size` bigint(20) NOT NULL COMMENT '文件大小【单位：B】',
   `file_size_desc` varchar(20) DEFAULT NULL COMMENT '文件大小描述',
   `file_version_id` int(11) NOT NULL COMMENT '文件版本编号',
-  `file_state` tinyint(2) NOT NULL COMMENT '文件状态【0: 待上传 1：待审核 2：使用中 3：审核不通过 4：逻辑删除 5：物理删除】',
+  `file_state` tinyint(2) NOT NULL COMMENT '文件状态【0: 待上传 1：待审核 2：使用中 3：审核不通过 4：逻辑删除】',
   `fastdfs_id` varchar(150) DEFAULT NULL COMMENT 'fastdfs文件编号',
   `secret_key` varchar(50) DEFAULT NULL COMMENT '密钥',
   `user_id` int(11) DEFAULT NULL COMMENT '操作用户编号',
@@ -69,7 +69,7 @@ CREATE TABLE `flea_file_version` (
   `file_type` varchar(10) NOT NULL COMMENT '文件类型',
   `file_size` bigint(20) NOT NULL COMMENT '文件大小【单位：B】',
   `file_size_desc` varchar(20) DEFAULT NULL COMMENT '文件大小描述',
-  `file_state` tinyint(2) NOT NULL COMMENT '文件状态【0: 待上传 1：待审核 2：使用中 3：审核不通过 4：逻辑删除 5：物理删除】',
+  `file_state` tinyint(2) NOT NULL COMMENT '文件状态【0: 待上传 1：待审核 2：使用中 3：审核不通过 4：逻辑删除】',
   `fastdfs_id` varchar(150) DEFAULT NULL COMMENT 'fastdfs文件编号',
   `secret_key` varchar(50) DEFAULT NULL COMMENT '密钥',
   `user_id` int(11) DEFAULT NULL COMMENT '操作用户编号',
@@ -113,19 +113,14 @@ DROP PROCEDURE IF EXISTS create_sharding_tables$$
 CREATE PROCEDURE create_sharding_tables(IN target_center INT)
 BEGIN
   DECLARE done INT DEFAULT 0;
-  DECLARE ddl_stmt VARCHAR(512);
+  DECLARE current_base_table VARCHAR(255);
+  DECLARE current_num INT;
 
-  -- 声明游标获取所有需要创建的分表DDL
+  -- 声明游标获取所有需要创建的分表的base_table和num
   DECLARE cur CURSOR FOR
     SELECT
-      CONCAT(
-          'CREATE TABLE ',
-          base_table, '_',
-          LPAD(HEX(num), 2, '0'),
-          ' LIKE ',
-          base_table,
-          ';'
-        )
+      base_table,
+      num
     FROM (
            SELECT
              base_table,
@@ -155,16 +150,22 @@ BEGIN
   OPEN cur;
 
   read_loop: LOOP
-    FETCH cur INTO ddl_stmt;
+    FETCH cur INTO current_base_table, current_num;
     IF done THEN
       LEAVE read_loop;
     END IF;
 
-    -- 动态执行DDL语句
-    SET @sql = ddl_stmt;
-    PREPARE stmt FROM @sql;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt;
+    -- 动态执行DROP TABLE语句（添加删除逻辑）
+    SET @drop_sql = CONCAT('DROP TABLE IF EXISTS ', current_base_table, '_', LPAD(HEX(current_num), 2, '0'), ';');
+    PREPARE drop_stmt FROM @drop_sql;
+    EXECUTE drop_stmt;
+    DEALLOCATE PREPARE drop_stmt;
+
+    -- 动态执行CREATE TABLE语句
+    SET @create_sql = CONCAT('CREATE TABLE ', current_base_table, '_', LPAD(HEX(current_num), 2, '0'), ' LIKE ', current_base_table, ';');
+    PREPARE create_stmt FROM @create_sql;
+    EXECUTE create_stmt;
+    DEALLOCATE PREPARE create_stmt;
   END LOOP;
 
   CLOSE cur;
