@@ -32,11 +32,6 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
 
     @Override
     public OutputDownloadAuthInfo downloadAuth(InputDownloadAuthInfo input) throws CommonException {
-        Object obj = null;
-        if (LOGGER.isDebugEnabled()) {
-            obj = new Object() {};
-            LOGGER.debug1(obj, "Start");
-        }
 
         String fileId = input.getFileId();
         if (StringUtils.isBlank(fileId)) {
@@ -47,21 +42,11 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
         OutputDownloadAuthInfo output = new OutputDownloadAuthInfo();
         output.setToken(RandomCode.toUUID());
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug1(obj, "End");
-        }
-
         return output;
     }
 
     @Override
     public OutputFileDownloadInfo fileDownload(InputFileDownloadInfo input) throws CommonException {
-
-        Object obj = null;
-        if (LOGGER.isDebugEnabled()) {
-            obj = new Object() {};
-            LOGGER.debug1(obj, "Start");
-        }
 
         File file = new File("E:\\IMG.jpg");
         // 将文件添加到文件上下文中
@@ -71,10 +56,6 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
         output.setUploadAcctId("121212");
         output.setUploadSystemAcctId("1000");
         output.setUploadDate(DateUtils.date2String(null, DateFormatEnum.YYYYMMDDHHMMSS));
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug1(obj, "End");
-        }
 
         return output;
     }

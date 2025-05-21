@@ -1,6 +1,11 @@
 package com.huazie.ffs.base.entity;
 
+import com.huazie.fleaframework.common.EntityStateEnum;
 import com.huazie.fleaframework.common.FleaEntity;
+import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.IFleaUser;
+import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,6 +41,9 @@ public class FleaTokenInfo extends FleaEntity {
     @Column(name = "file_id", nullable = false)
     private String fileId; // 文件编号
 
+    @Column(name = "category_id", nullable = false)
+    private Long categoryId; // 类目编号
+
     @Column(name = "operation_type", nullable = false)
     private String operationType; // 操作类型
 
@@ -67,4 +75,31 @@ public class FleaTokenInfo extends FleaEntity {
     @Column(name = "remarks")
     private String remarks; // 备注信息
 
+    public FleaTokenInfo() {
+    }
+
+    public FleaTokenInfo(String tokenId) {
+        this.tokenId = tokenId;
+    }
+
+    public FleaTokenInfo(String tokenId, String fileId, Long categoryId, String operationType, Date effectiveDate, Date expiryDate, String remarks) {
+        this.tokenId = tokenId;
+        this.fileId = fileId;
+        this.categoryId = categoryId;
+        this.operationType = operationType;
+        this.state = EntityStateEnum.IN_USE.getState();
+        IFleaUser userInfo = FleaSessionManager.getUserInfo();
+        if (ObjectUtils.isNotEmpty(userInfo)) {
+            this.userId = userInfo.getUserId();
+            this.systemUserId = userInfo.getSystemUserId();
+        }
+        this.createDate = DateUtils.getCurrentTime();
+        if (ObjectUtils.isEmpty(effectiveDate))
+            effectiveDate = DateUtils.getCurrentTime();
+        this.effectiveDate = effectiveDate;
+        if (ObjectUtils.isEmpty(expiryDate))
+            expiryDate = DateUtils.getExpiryTimeForever();
+        this.expiryDate = expiryDate;
+        this.remarks = remarks;
+    }
 }

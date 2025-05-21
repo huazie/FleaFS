@@ -35,14 +35,14 @@ public class FleaFSEntityUtils {
      * @since 1.0.0
      */
     public static FleaCategoryAttr newAuthCheckModeAttr(Long categoryId, String operationType, String authCheckMode) {
-        String attrCode = FleaFSConstants.ATTR_CODE_AUTH_CHECK_MODE;
+        String attrCode = FleaFSConstants.AttrConstants.ATTR_CODE_AUTH_CHECK_MODE;
         if (StringUtils.isNotBlank(operationType)) {
             attrCode += CommonConstants.SymbolConstants.UNDERLINE + operationType;
         }
         // 【{0}】授权校验方式
         String attrDesc = FleaI18nHelper.i18nForCommon("FLEAFS-CATEGORY00000001", generateValues(operationType));
         // 授权校验方式描述
-        String remarks = FleaI18nHelper.i18nForCommon(FleaFSConstants.FLEAFS_AUTH_CHECK_MODE + authCheckMode);
+        String remarks = FleaI18nHelper.i18nForCommon(FleaFSConstants.FileCategoryConstants.FLEAFS_AUTH_CHECK_MODE + authCheckMode);
         return new FleaCategoryAttr(categoryId, attrCode, authCheckMode, attrDesc, remarks);
     }
 
@@ -56,7 +56,7 @@ public class FleaFSEntityUtils {
      * @since 1.0.0
      */
     public static FleaCategoryAttr newIncludeSystemUsersAttr(Long categoryId, String operationType, String systemUsers) {
-        String attrCode = FleaFSConstants.ATTR_CODE_INCLUDE_SYSTEM_USER;
+        String attrCode = FleaFSConstants.AttrConstants.ATTR_CODE_INCLUDE_SYSTEM_USER;
         if (StringUtils.isNotBlank(operationType)) {
             attrCode += CommonConstants.SymbolConstants.UNDERLINE + operationType;
         }
@@ -75,9 +75,7 @@ public class FleaFSEntityUtils {
                 OperateTypeEnum operateTypeEnum = OperateTypeEnum.values()[oType - 1];
                 values = new String[]{operateTypeEnum.getName()};
             } catch (Exception e) {
-                if (LOGGER.isErrorEnabled()) {
-                    LOGGER.error1(new Object() {}, "[operationType = {}] is invalid", operationType);
-                }
+                LOGGER.error1(new Object() {}, "[operationType = {}] is invalid", operationType);
                 ExceptionUtils.throwFleaException(FleaFSException.class, "[operationType = {}] is invalid");
             }
         } else {

@@ -20,14 +20,9 @@ public class FleaFSAuthCheckFilter implements IFleaJerseyFilter {
 
     @Override
     public void doFilter(FleaJerseyRequest request, FleaJerseyResponse response) throws CommonException {
-        Object obj = null;
-        if (LOGGER.isDebugEnabled()) {
-            obj = new Object() {};
-            LOGGER.debug1(obj, "FleaFS Auth Check, Start");
-        }
+        Object obj = new Object() {};
+        LOGGER.debug1(obj, "FleaFS Auth Check, Start");
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug1(obj,"FleaFS Auth Check, End");
-        }
+        LOGGER.debug1(obj,"FleaFS Auth Check, End");
     }
 }

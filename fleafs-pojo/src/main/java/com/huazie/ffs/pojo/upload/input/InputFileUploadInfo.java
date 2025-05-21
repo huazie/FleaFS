@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.io.Serializable;
 
 /**
- * 文件上传入参定义
+ * 文件上传业务入参定义
  *
  * @author huazie
  * @version 1.0.0

@@ -34,9 +34,9 @@
             </splits>
         </table>
 
-        <table name="flea_token_info" lib="fleafs" exp="(FLEA_TABLE_NAME)_(FILE_ID)" desc="Flea鉴权信息表分表规则">
+        <table name="flea_token_info" lib="fleafs" exp="(FLEA_TABLE_NAME)_(TOKEN_ID)" desc="Flea鉴权信息表分表规则">
             <splits>
-                <split key="TWO" column="file_id" seq="SEQ"/>
+                <split key="TWO" column="token_id" seq="SEQ"/>
             </splits>
         </table>
     </tables>

@@ -20,7 +20,7 @@ public class InputUploadAuthInfo implements Serializable {
 
     private static final long serialVersionUID = 5573932231714644551L;
 
-    private Integer categoryId; // 文件类目编号（两者必传一个）
+    private Long categoryId; // 文件类目编号（两者必传一个）
 
     private String categoryCode; // 文件类目编码（两者必传一个）
 

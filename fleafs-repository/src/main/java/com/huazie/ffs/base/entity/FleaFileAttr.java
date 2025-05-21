@@ -1,6 +1,9 @@
 package com.huazie.ffs.base.entity;
 
+import com.huazie.fleaframework.common.EntityStateEnum;
 import com.huazie.fleaframework.common.FleaEntity;
+import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -70,4 +73,26 @@ public class FleaFileAttr extends FleaEntity {
     @Column(name = "remarks")
     private String remarks; // 备注信息
 
+    public FleaFileAttr() {
+    }
+
+    public FleaFileAttr(String fileId, String attrCode, String attrValue, String attrDesc, String remarks) {
+        this(fileId, attrCode, attrValue, attrDesc, null, null, remarks);
+    }
+
+    public FleaFileAttr(String fileId, String attrCode, String attrValue, String attrDesc, Date effectiveDate, Date expiryDate, String remarks) {
+        this.fileId = fileId;
+        this.attrCode = attrCode;
+        this.attrValue = attrValue;
+        this.attrDesc = attrDesc;
+        this.state = EntityStateEnum.IN_USE.getState();
+        this.createDate = DateUtils.getCurrentTime();
+        if (ObjectUtils.isEmpty(effectiveDate))
+            effectiveDate = DateUtils.getCurrentTime();
+        this.effectiveDate = effectiveDate;
+        if (ObjectUtils.isEmpty(expiryDate))
+            expiryDate = DateUtils.getExpiryTimeForever();
+        this.expiryDate = expiryDate;
+        this.remarks = remarks;
+    }
 }

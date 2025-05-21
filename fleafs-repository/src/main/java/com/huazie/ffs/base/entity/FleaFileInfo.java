@@ -1,6 +1,15 @@
 package com.huazie.ffs.base.entity;
 
+import com.huazie.ffs.base.FileStateEnum;
+import com.huazie.ffs.common.util.FileUtils;
+import com.huazie.fleaframework.common.CommonConstants;
+import com.huazie.fleaframework.common.EntityStateEnum;
 import com.huazie.fleaframework.common.FleaEntity;
+import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.IFleaUser;
+import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
+import com.huazie.fleaframework.common.util.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -80,4 +89,36 @@ public class FleaFileInfo extends FleaEntity {
     @Column(name = "remarks")
     private String remarks; // 备注信息
 
+    public FleaFileInfo() {
+    }
+
+    public FleaFileInfo(String fileId, String fileName, String filePath, String remarks) {
+        this(fileId, fileName, filePath, "", null, null, null, remarks);
+    }
+
+    public FleaFileInfo(String fileId, String fileName, String filePath, String fileType, Long fileSize, Long fileVersionId, Integer fileState, String remarks) {
+        this.fileId = fileId;
+        this.fileName = fileName;
+        this.filePath = filePath;
+        if (StringUtils.isBlank(fileType))
+            fileType = FileUtils.getFileExtension(fileName);
+        this.fileType = fileType;
+        if (ObjectUtils.isEmpty(fileSize))
+            fileSize = CommonConstants.NumeralConstants.ZERO;
+        this.fileSize = fileSize;
+        if (ObjectUtils.isEmpty(fileVersionId))
+            fileVersionId = CommonConstants.NumeralConstants.MINUS_ONE;
+        this.fileVersionId = fileVersionId;
+        if (ObjectUtils.isEmpty(fileState))
+            fileState = FileStateEnum.FILE_PENDING_UPLOAD.getState();
+        this.fileState = fileState;
+        IFleaUser userInfo = FleaSessionManager.getUserInfo();
+        if (ObjectUtils.isNotEmpty(userInfo)) {
+            this.userId = userInfo.getUserId();
+            this.systemUserId = userInfo.getSystemUserId();
+        }
+        this.state = EntityStateEnum.IN_USE.getState();
+        this.createDate = DateUtils.getCurrentTime();
+        this.remarks = remarks;
+    }
 }

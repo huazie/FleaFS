@@ -16,6 +16,13 @@ import com.huazie.fleaframework.common.exceptions.CommonException;
 public interface IFleaUploadSV {
 
     /**
+     * 设置分库序列
+     *
+     * @since 1.0.0
+     */
+    void setSplitLibSequence();
+
+    /**
      * 上传授权
      *
      * @param input 上传授权业务入参
