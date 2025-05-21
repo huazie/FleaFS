@@ -4,10 +4,6 @@ import com.huazie.ffs.base.entity.FleaCategoryAttr;
 import com.huazie.ffs.base.service.interfaces.IFleaCategoryAttrSV;
 import com.huazie.ffs.base.util.FleaFSEntityUtils;
 import com.huazie.fleaframework.common.exceptions.CommonException;
-import com.huazie.fleaframework.common.util.CollectionUtils;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author huazie

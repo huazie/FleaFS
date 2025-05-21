@@ -4,8 +4,6 @@ import com.huazie.ffs.auth.operation.FleaFSFileOperation;
 import com.huazie.ffs.auth.operation.FleaFSFileOperationAttr;
 import com.huazie.fleaframework.auth.common.service.interfaces.IFleaFunctionModuleSV;
 import com.huazie.fleaframework.common.exceptions.CommonException;
-import com.huazie.fleaframework.common.slf4j.FleaLogger;
-import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,8 +19,6 @@ import javax.annotation.Resource;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class FleaAuthTest {
-
-    private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleaAuthTest.class);
 
     @Resource(name = "fleaFunctionModuleSV")
     private IFleaFunctionModuleSV fleaFunctionModuleSV;

@@ -1,6 +1,7 @@
 package com.huazie.ffs;
 
 import com.huazie.ffs.common.OperateTypeEnum;
+import com.huazie.ffs.common.util.FileUtils;
 import com.huazie.fleaframework.cache.AbstractFleaCache;
 import com.huazie.fleaframework.cache.AbstractFleaCacheManager;
 import com.huazie.fleaframework.cache.common.CacheEnum;
@@ -56,7 +57,8 @@ public class FleaFSTest {
 
     @Test
     public void test() {
-        OperateTypeEnum value = OperateTypeEnum.values()[6];
+        OperateTypeEnum value = OperateTypeEnum.values()[5];
         LOGGER.debug("value={}", value);
+        LOGGER.debug(FileUtils.getFileExtension("test.txt"));
     }
 }

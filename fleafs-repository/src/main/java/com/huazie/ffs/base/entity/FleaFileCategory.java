@@ -5,6 +5,7 @@ import com.huazie.fleaframework.common.EntityStateEnum;
 import com.huazie.fleaframework.common.FleaEntity;
 import com.huazie.fleaframework.common.util.DateUtils;
 import com.huazie.fleaframework.common.util.ObjectUtils;
+import com.huazie.fleaframework.db.common.FleaTable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,8 +18,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
-import static com.huazie.ffs.common.FleaFSConstants.MAX_FILE_SIZE;
-import static com.huazie.ffs.common.FleaFSConstants.NO_NEED_ENCRYPTION;
+import static com.huazie.ffs.common.FleaFSConstants.FileCategoryConstants.MAX_FILE_SIZE;
+import static com.huazie.ffs.common.FleaFSConstants.FileCategoryConstants.NO_NEED_ENCRYPTION;
 
 /**
  * Flea文件类目表对应的实体类
@@ -32,6 +33,7 @@ import static com.huazie.ffs.common.FleaFSConstants.NO_NEED_ENCRYPTION;
 @ToString
 @Entity
 @Table(name = "flea_file_category")
+@FleaTable(splitLibFlag = false)
 public class FleaFileCategory extends FleaEntity {
 
     private static final long serialVersionUID = 7947199149577679059L;
@@ -72,41 +74,13 @@ public class FleaFileCategory extends FleaEntity {
     @Column(name = "remarks")
     private String remarks; // 备注信息
 
-    /**
-     * 无参构造方法
-     *
-     * @since 1.0.0
-     */
     public FleaFileCategory() {
     }
 
-    /**
-     * 带参数的构造方法，初始化Flea文件类目
-     *
-     * @param categoryId     类目编号
-     * @param categoryCode   类目编码
-     * @param categoryName   类目名称
-     * @param operationState 操作状态
-     * @param remarks        备注
-     * @since 1.0.0
-     */
     public FleaFileCategory(Long categoryId, String categoryCode, String categoryName, String operationState, String remarks) {
         this(categoryId, categoryCode, categoryName, null, NO_NEED_ENCRYPTION, MAX_FILE_SIZE, operationState, remarks);
     }
 
-    /**
-     * 带参数的构造方法，初始化Flea文件类目
-     *
-     * @param categoryId     类目编号
-     * @param categoryCode   类目编码
-     * @param categoryName   类目名称
-     * @param parentId       父类目编号
-     * @param encryptType    文件加密方式【AES、DES、NONE(无需加密)】
-     * @param maxFileSize    文件最大值【单位：MB】
-     * @param operationState 操作状态
-     * @param remarks        备注
-     * @since 1.0.0
-     */
     public FleaFileCategory(Long categoryId, String categoryCode, String categoryName, Long parentId, String encryptType, Long maxFileSize, String operationState, String remarks) {
         this.categoryId = categoryId;
         this.categoryCode = categoryCode;

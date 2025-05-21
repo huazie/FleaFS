@@ -157,6 +157,7 @@ DROP TABLE IF EXISTS `flea_token_info`;
 CREATE TABLE `flea_token_info` (
   `token_id` varchar(48) NOT NULL COMMENT '鉴权令牌',
   `file_id` varchar(48) NOT NULL COMMENT '文件编号',
+  `category_id` int(10) NOT NULL COMMENT '类目编号',
   `operation_type` varchar(16) NOT NULL COMMENT '操作类型',
   `state` tinyint(4) NOT NULL COMMENT '文件记录状态(0: 删除 1: 正常）',
   `user_id` int(11) DEFAULT NULL COMMENT '操作用户编号',

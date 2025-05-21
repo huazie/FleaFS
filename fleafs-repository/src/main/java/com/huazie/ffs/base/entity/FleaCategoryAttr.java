@@ -4,6 +4,7 @@ import com.huazie.fleaframework.common.EntityStateEnum;
 import com.huazie.fleaframework.common.FleaEntity;
 import com.huazie.fleaframework.common.util.DateUtils;
 import com.huazie.fleaframework.common.util.ObjectUtils;
+import com.huazie.fleaframework.db.common.FleaTable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,6 +31,7 @@ import java.util.Date;
 @ToString
 @Entity
 @Table(name = "flea_category_attr")
+@FleaTable(splitLibFlag = false)
 public class FleaCategoryAttr extends FleaEntity {
 
     private static final long serialVersionUID = -4812356612913325560L;
