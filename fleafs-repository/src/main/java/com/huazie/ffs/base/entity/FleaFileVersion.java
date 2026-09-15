@@ -1,12 +1,23 @@
 package com.huazie.ffs.base.entity;
 
+import com.huazie.ffs.base.FileStateEnum;
+import com.huazie.ffs.common.util.FileUtils;
+import com.huazie.fleaframework.common.CommonConstants;
+import com.huazie.fleaframework.common.EntityStateEnum;
 import com.huazie.fleaframework.common.FleaEntity;
+import com.huazie.fleaframework.common.FleaSessionManager;
+import com.huazie.fleaframework.common.IFleaUser;
+import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
+import com.huazie.fleaframework.common.util.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -30,6 +41,7 @@ public class FleaFileVersion extends FleaEntity {
     private static final long serialVersionUID = -6550279450390266938L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "version_id", unique = true, nullable = false)
     private Long versionId; // 版本编号
 
@@ -88,5 +100,55 @@ public class FleaFileVersion extends FleaEntity {
 
     @Column(name = "remarks")
     private String remarks; // 备注信息
+
+    public FleaFileVersion() {
+    }
+
+    /**
+     * 构建文件版本记录（用于文件上传、更新时留存文件快照）
+     *
+     * @param versionCode    版本编码
+     * @param versionName    版本名称
+     * @param fileId         文件编号
+     * @param fileName       文件名称
+     * @param filePath       文件路径
+     * @param fileType       文件类型
+     * @param fileSize       文件大小【单位：B】
+     * @param fileSizeDesc   文件大小描述
+     * @param fileState      文件状态
+     * @param fastdfsId      fastdfs文件编号
+     * @param secretKey      密钥【Base64编码】
+     * @param remarks        备注信息
+     * @since 1.0.0
+     */
+    public FleaFileVersion(String versionCode, String versionName, String fileId, String fileName, String filePath,
+                           String fileType, Long fileSize, String fileSizeDesc, Integer fileState,
+                           String fastdfsId, String secretKey, String remarks) {
+        this.versionCode = versionCode;
+        this.versionName = versionName;
+        this.fileId = fileId;
+        this.fileName = fileName;
+        this.filePath = filePath;
+        if (StringUtils.isBlank(fileType))
+            fileType = FileUtils.getFileExtension(fileName);
+        this.fileType = fileType;
+        if (ObjectUtils.isEmpty(fileSize))
+            fileSize = CommonConstants.NumeralConstants.ZERO;
+        this.fileSize = fileSize;
+        this.fileSizeDesc = fileSizeDesc;
+        if (ObjectUtils.isEmpty(fileState))
+            fileState = FileStateEnum.FILE_PENDING_UPLOAD.getState();
+        this.fileState = fileState;
+        this.fastdfsId = fastdfsId;
+        this.secretKey = secretKey;
+        IFleaUser userInfo = FleaSessionManager.getUserInfo();
+        if (ObjectUtils.isNotEmpty(userInfo)) {
+            this.userId = userInfo.getUserId();
+            this.systemUserId = userInfo.getSystemUserId();
+        }
+        this.state = EntityStateEnum.IN_USE.getState();
+        this.createDate = DateUtils.getCurrentTime();
+        this.remarks = remarks;
+    }
 
 }

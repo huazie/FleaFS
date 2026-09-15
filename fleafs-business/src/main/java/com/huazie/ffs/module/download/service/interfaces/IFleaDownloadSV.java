@@ -7,7 +7,7 @@ import com.huazie.ffs.pojo.download.output.OutputFileDownloadInfo;
 import com.huazie.fleaframework.common.exceptions.CommonException;
 
 /**
- * Flea下载服务接口
+ * Flea下载服务接口，提供下载鉴权、文件下载的功能
  *
  * @author huazie
  * @version 1.0.0

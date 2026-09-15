@@ -14,4 +14,27 @@
     <!-- flea jersey 接口过滤器公共配置文件引入 -->
     <import resource="flea/jersey/flea-jersey-filter.xml"/>
 
+    <!--
+        FleaFS 业务国际码和错误码映射
+        注：
+        （1）此处配置的映射由异常过滤器【ErrorFilter】优先匹配，优先级高于配置库表 flea_jersey_i18n_error_mapping；
+        （2）此处不配置节点文本，响应返回信息取自国际化资源文件 flea_i18n_error*.properties，避免硬编码文案。
+    -->
+    <filter-i18n-error>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000000" errorCode="101000"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000001" errorCode="101001"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000002" errorCode="101002"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000003" errorCode="101003"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000004" errorCode="101004"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000005" errorCode="101005"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000006" errorCode="101006"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000007" errorCode="101007"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000008" errorCode="101008"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000009" errorCode="101009"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000010" errorCode="101010"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000011" errorCode="101011"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000012" errorCode="101012"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000013" errorCode="101013"/>
+    </filter-i18n-error>
+
 </jersey>

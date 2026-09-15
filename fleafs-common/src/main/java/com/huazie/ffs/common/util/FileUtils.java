@@ -1,6 +1,7 @@
 package com.huazie.ffs.common.util;
 
 import com.huazie.ffs.common.FileSizeUnitEnum;
+import com.huazie.ffs.common.FleaFSConstants;
 import com.huazie.ffs.common.exceptions.FleaFSException;
 import com.huazie.fleaframework.common.exceptions.FleaException;
 import com.huazie.fleaframework.common.util.ExceptionUtils;
@@ -16,7 +17,7 @@ import java.nio.file.Paths;
 
 /**
  * @author huazie
- * @version 2.0.0
+ * @version 1.0.0
  * @since 2.0.0
  */
 public class FileUtils {
@@ -82,7 +83,7 @@ public class FileUtils {
 
         try (InputStream in = inputStream;
              FileOutputStream out = new FileOutputStream(file)) {
-            byte[] buffer = new byte[4096];
+            byte[] buffer = new byte[FleaFSConstants.IOConstants.BUFFER_SIZE];
             int bytesRead;
             while ((bytesRead = in.read(buffer)) != -1) {
                 out.write(buffer, 0, bytesRead);

@@ -76,6 +76,10 @@ public class FleaFileAttr extends FleaEntity {
     public FleaFileAttr() {
     }
 
+    public FleaFileAttr(String fileId) {
+        this.fileId = fileId;
+    }
+
     public FleaFileAttr(String fileId, String attrCode, String attrValue, String attrDesc, String remarks) {
         this(fileId, attrCode, attrValue, attrDesc, null, null, remarks);
     }
