@@ -12,7 +12,7 @@ import javax.ws.rs.Path;
  *
  * @author huazie
  * @version 1.0.0
- * @since .0.0
+ * @since 1.0.0
  */
 @Path("download")
 public class DownloadResource extends FleaJerseyFGetResource implements JerseyPostResource {

@@ -4,16 +4,20 @@ import com.huazie.ffs.base.FileStateEnum;
 import com.huazie.ffs.base.FleaFSEntityConstants;
 import com.huazie.ffs.base.entity.FleaFileCategory;
 import com.huazie.ffs.base.entity.FleaFileInfo;
+import com.huazie.ffs.base.entity.FleaFileVersion;
 import com.huazie.ffs.base.entity.FleaTokenInfo;
 import com.huazie.ffs.base.service.interfaces.IFleaFileAttrSV;
 import com.huazie.ffs.base.service.interfaces.IFleaFileCategorySV;
 import com.huazie.ffs.base.service.interfaces.IFleaFileInfoSV;
+import com.huazie.ffs.base.service.interfaces.IFleaFileVersionSV;
 import com.huazie.ffs.base.service.interfaces.IFleaTokenInfoSV;
 import com.huazie.ffs.base.util.FleaFSCheck;
 import com.huazie.ffs.common.FileSizeUnitEnum;
 import com.huazie.ffs.common.OperateTypeEnum;
+import com.huazie.ffs.common.util.EncryptionUtils;
 import com.huazie.ffs.common.util.FastDFSClient;
 import com.huazie.ffs.common.util.FileUtils;
+import com.huazie.ffs.module.search.service.interfaces.IFleaFileIndexSV;
 import com.huazie.ffs.module.upload.service.interfaces.IFleaUploadSV;
 import com.huazie.ffs.pojo.upload.input.InputFileUploadInfo;
 import com.huazie.ffs.pojo.upload.input.InputUploadAuthInfo;
@@ -39,7 +43,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Flea上传服务实现类
+ * Flea上传服务实现类，主要功能如下：
+ * <p> 上传鉴权，用于获取文件上传所需的鉴权token
+ * <p> 文件上传，用于实际文件的上传，内部通过FastDFS API操作文件上传
  *
  * @author huazie
  * @version 1.0.0
@@ -57,6 +63,16 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
     private IFleaFileInfoSV fleaFileInfoSV;
 
     private IFleaFileAttrSV fleaFileAttrSV;
+
+    private IFleaFileVersionSV fleaFileVersionSV;
+
+    private IFleaFileIndexSV fleaFileIndexSV;
+
+    @Autowired
+    @Qualifier("fleaFileIndexSV")
+    public void setFleaFileIndexSV(IFleaFileIndexSV fleaFileIndexSV) {
+        this.fleaFileIndexSV = fleaFileIndexSV;
+    }
 
     @Autowired
     @Qualifier("fleaFileCategorySV")
@@ -82,6 +98,12 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         this.fleaFileAttrSV = fleaFileAttrSV;
     }
 
+    @Autowired
+    @Qualifier("fleaFileVersionSV")
+    public void setFleaFileVersionSV(IFleaFileVersionSV fleaFileVersionSV) {
+        this.fleaFileVersionSV = fleaFileVersionSV;
+    }
+
     @Override
     public void setSplitLibSequence() {
         // 生成Token
@@ -99,17 +121,24 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         // 生成Token
         String token = FleaLibUtil.getSplitLibSeqValue("SEQ", String.class);
 
+        Object obj = new Object() {};
+        LOGGER.debug1(obj, "上传鉴权，token = {}", token);
+
         FleaFSCheck.checkBlank1(input.getFileName(), FleaFSEntityConstants.FileInfoEntityConstants.E_FILE_NAME);
 
         Map<String, Object> extendMap = new HashMap<>();
         // 预生成文件信息
         String fileId = fleaFileInfoSV.preSaveFleaFileInfo(token, input.getFileName(), extendMap);
 
+        LOGGER.debug1(obj, "上传鉴权，fileId = {}", fileId);
+
         // 获取Flea文件类目
         FleaFileCategory fleaFileCategory = fleaFileCategorySV.queryFleaCategory(input.getCategoryId(), input.getCategoryCode());
         FleaFSCheck.checkFleaFileCategory(fleaFileCategory, input.getCategoryId(), input.getCategoryCode());
 
         Long categoryId = fleaFileCategory.getCategoryId();
+        // 校验类目是否启用文件上传操作
+        FleaFSCheck.checkOperationState(fleaFileCategory, OperateTypeEnum.UPLOAD, categoryId);
         // 预生成文件属性信息
         fleaFileAttrSV.preSavFileRelCategoryAttr(fileId, categoryId, extendMap);
 
@@ -132,6 +161,9 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         String token = input.getToken();
         FleaFSCheck.checkBlank1(token, "上传鉴权令牌(token)");
 
+        Object obj = new Object() {};
+        LOGGER.debug1(obj, "文件上传，token = {}", token);
+
         // 根据token查询有效的Flea鉴权信息
         FleaTokenInfo fleaTokenInfo = this.fleaTokenInfoSV.queryValidFleaTokenInfo(token);
         FleaFSCheck.checkFleaTokenInfo(fleaTokenInfo, token);
@@ -146,6 +178,8 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         FleaFileInfo fileInfo = fleaFileInfoSV.query(fileId);
         FleaFSCheck.checkFleaFileInfo(fileInfo, fileId);
 
+        LOGGER.debug1(obj, "文件上传，fileId = {}", fileId);
+
         // 获取上传的文件对象
         FleaFileObject fileObject = FleaJerseyManager.getManager().getFileObject();
         String fileName = fileObject.getFileName();
@@ -155,11 +189,34 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         Long maxFileSize = fleaFileCategory.getMaxFileSize();
         FleaFSCheck.checkFileSize(uploadFile, maxFileSize);
 
-        // 通过FastDFS工具类上传文件
-        String fastdfsId = FastDFSClient.uploadFile(uploadFile, fileName);
+        // 校验类目配置的文件加密方式是否支持
+        String encryptType = fleaFileCategory.getEncryptType();
+        FleaFSCheck.checkEncryptionType(encryptType, categoryId);
 
-        // 更新文件信息
-        updateFleaFileInfo(fileInfo, fileName, fastdfsId, uploadFile);
+        // 按需生成密钥并加密上传文件【密钥经Base64编码后随文件信息落库】
+        String secretKey = null;
+        File uploadTargetFile = uploadFile;
+        if (EncryptionUtils.isEncryptionNeeded(encryptType)) {
+            secretKey = EncryptionUtils.generateSecretKey(encryptType);
+            uploadTargetFile = EncryptionUtils.encryptFile(uploadFile, encryptType, secretKey);
+        }
+
+        // 通过FastDFS工具类上传文件【如需加密，上传加密后的临时文件】
+        String fastdfsId = FastDFSClient.uploadFile(uploadTargetFile, fileName);
+
+        // 清理加密临时文件
+        if (uploadTargetFile != uploadFile) {
+            uploadTargetFile.delete();
+        }
+
+        LOGGER.debug1(obj, "文件上传，fileName = {}", fileName);
+        LOGGER.debug1(obj, "文件上传，fastdfsId = {}", fastdfsId);
+
+        // 更新文件信息【含版本快照留存】
+        updateFleaFileInfo(fileInfo, fileName, fastdfsId, uploadFile, secretKey);
+
+        // 同步文件ES索引【容错处理，ES不可用不阻断主链路】
+        fleaFileIndexSV.indexFleaFileInfo(fileInfo);
 
         // 失效Flea鉴权信息
         expireFleaTokenInfo(fleaTokenInfo);
@@ -170,13 +227,33 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         return outputFileUploadInfo;
     }
 
-    private void updateFleaFileInfo(FleaFileInfo fileInfo, String fileName, String fastdfsId, File uploadFile) {
+    /**
+     * 更新文件信息，并留存文件版本快照
+     *
+     * @param fileInfo   文件信息
+     * @param fileName   文件名称
+     * @param fastdfsId  FastDFS文件编号
+     * @param uploadFile 上传的文件
+     * @param secretKey  密钥【Base64编码，无需加密时为null】
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    private void updateFleaFileInfo(FleaFileInfo fileInfo, String fileName, String fastdfsId, File uploadFile, String secretKey) throws CommonException {
         fileInfo.setFileName(fileName);
         fileInfo.setFileState(FileStateEnum.FILE_IN_USE.getState());
         fileInfo.setFastdfsId(fastdfsId);
-        fileInfo.setFileSize(Double.doubleToLongBits(FileUtils.getFileSize(uploadFile, FileSizeUnitEnum.BYTES)));
+        fileInfo.setSecretKey(secretKey);
+        // FastDFS中的文件访问路径（groupName/relativePath/filename）
+        fileInfo.setFilePath(fastdfsId);
+        // 文件大小【单位：B】，注意不能用 doubleToLongBits（会取IEEE754位模式，得到垃圾值）
+        fileInfo.setFileSize(Math.round(FileUtils.getFileSize(uploadFile, FileSizeUnitEnum.BYTES)));
         fileInfo.setFileSizeDesc(FileUtils.getSmartFileSize(uploadFile));
         fileInfo.setDoneDate(DateUtils.getCurrentTime());
+
+        // 留存文件版本快照，并回填当前文件版本编号
+        FleaFileVersion fleaFileVersion = fleaFileVersionSV.saveFleaFileVersion(fileInfo, "文件上传");
+        fileInfo.setFileVersionId(fleaFileVersion.getVersionId());
+
         fleaFileInfoSV.update(fileInfo);
     }
 
