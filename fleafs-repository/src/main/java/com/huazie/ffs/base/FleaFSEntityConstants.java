@@ -55,6 +55,26 @@ public final class FleaFSEntityConstants extends FleaEntityConstants {
     }
 
     /**
+     * 文件版本实体常量
+     *
+     * @since 1.0.0
+     */
+    public static final class FileVersionEntityConstants {
+        /**
+         * 版本编号
+         */
+        public static final String E_VERSION_ID = "versionId";
+        /**
+         * 版本编码
+         */
+        public static final String E_VERSION_CODE = "versionCode";
+        /**
+         * 文件编号
+         */
+        public static final String E_FILE_ID = "fileId";
+    }
+
+    /**
      * 鉴权信息实体常量
      *
      * @since 1.0.0
