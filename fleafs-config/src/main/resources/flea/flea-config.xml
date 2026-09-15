@@ -38,4 +38,9 @@
         <config-item key="user" desc="mysql数据库登录用户名">root</config-item>
         <config-item key="password" desc="mysql数据库登录密码">root</config-item>
     </config-items>
+
+    <!-- flea-fs -->
+    <config-items key="flea-fs-config" desc="FleaFS业务配置">
+        <config-item key="es_hosts" desc="ElasticSearch集群地址【格式：host:port，多节点以逗号分隔，如 127.0.0.1:9200,127.0.0.2:9200】">127.0.0.1:9200</config-item>
+    </config-items>
 </flea-config>
