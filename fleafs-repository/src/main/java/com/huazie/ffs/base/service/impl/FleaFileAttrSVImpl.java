@@ -5,6 +5,8 @@ import com.huazie.ffs.base.entity.FleaFileAttr;
 import com.huazie.ffs.base.service.interfaces.IFleaFileAttrSV;
 import com.huazie.ffs.common.FleaFSConstants;
 import com.huazie.fleaframework.common.exceptions.CommonException;
+import com.huazie.fleaframework.common.util.CollectionUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
 import com.huazie.fleaframework.common.util.StringUtils;
 import com.huazie.fleaframework.db.jpa.dao.interfaces.IAbstractFleaJPADAO;
 import com.huazie.fleaframework.db.jpa.service.impl.AbstractFleaJPASVImpl;
@@ -43,6 +45,17 @@ public class FleaFileAttrSVImpl extends AbstractFleaJPASVImpl<FleaFileAttr> impl
     @Override
     public List<FleaFileAttr> queryValidFleaFileAttrs(String fileId, String attrCode) throws CommonException {
         return this.fleaFileAttrDao.queryValidFleaFileAttrs(fileId, attrCode);
+    }
+
+    @Override
+    public Long queryFileCategoryId(String fileId) throws CommonException {
+        Long categoryId = 0L;
+        List<FleaFileAttr> fleaFileAttrs = this.fleaFileAttrDao.queryValidFleaFileAttrs(fileId, FleaFSConstants.AttrConstants.ATTR_CODE_CATEGORY_ID);
+        FleaFileAttr categoryAttr = CollectionUtils.getFirstElement(fleaFileAttrs, FleaFileAttr.class);
+        if (ObjectUtils.isNotEmpty(categoryAttr) && StringUtils.isNotBlank(categoryAttr.getAttrValue())) {
+            categoryId = Long.parseLong(categoryAttr.getAttrValue());
+        }
+        return categoryId;
     }
 
     @Override

@@ -37,4 +37,14 @@ public interface IFleaFileAttrSV extends IAbstractFleaJPASV<FleaFileAttr> {
      * @since 1.0.0
      */
     List<FleaFileAttr> queryValidFleaFileAttrs(String fileId, String attrCode) throws CommonException;
+
+    /**
+     * 查询指定文件关联的类目编号
+     *
+     * @param fileId 文件编号
+     * @return 类目编号（未配置时默认0）
+     * @throws CommonException 通用异常
+     * @since 1.0.0
+     */
+    Long queryFileCategoryId(String fileId) throws CommonException;
 }

@@ -24,7 +24,7 @@ public class FleaFileAttrDAOImpl extends FleaFSDAOImpl<FleaFileAttr> implements 
     @Override
     public List<FleaFileAttr> queryValidFleaFileAttrs(String fileId, String attrCode) throws CommonException {
         Date currentDate = DateUtils.getCurrentTime();
-        return this.getQuery(null)
+        return this.getQuery(null).initQueryEntity(new FleaFileAttr(fileId))
                 .equal(FleaFSEntityConstants.FileInfoEntityConstants.E_FILE_ID, fileId)
                 .equal(FleaFSEntityConstants.E_ATTR_CODE, attrCode)
                 .equal(FleaFSEntityConstants.E_STATE, EntityStateEnum.IN_USE.getState())
