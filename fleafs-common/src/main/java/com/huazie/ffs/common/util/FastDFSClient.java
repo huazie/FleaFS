@@ -1,5 +1,6 @@
 package com.huazie.ffs.common.util;
 
+import com.huazie.ffs.common.FleaFSConstants;
 import com.huazie.ffs.common.exceptions.FleaFSException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
@@ -200,7 +201,7 @@ public class FastDFSClient {
      */
     private static byte[] readAllBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        byte[] data = new byte[4096];
+        byte[] data = new byte[FleaFSConstants.IOConstants.BUFFER_SIZE];
         int bytesRead;
         while ((bytesRead = inputStream.read(data, 0, data.length)) != -1) {
             buffer.write(data, 0, bytesRead);
