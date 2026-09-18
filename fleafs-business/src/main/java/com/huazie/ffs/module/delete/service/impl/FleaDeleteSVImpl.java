@@ -12,6 +12,7 @@ import com.huazie.ffs.base.service.interfaces.IFleaTokenInfoSV;
 import com.huazie.ffs.base.util.FleaFSCheck;
 import com.huazie.ffs.common.OperateTypeEnum;
 import com.huazie.ffs.common.util.FastDFSClient;
+import com.huazie.ffs.module.auth.common.IFleaFileCategoryLocator;
 import com.huazie.ffs.module.delete.service.interfaces.IFleaDeleteSV;
 import com.huazie.ffs.module.search.service.interfaces.IFleaFileIndexSV;
 import com.huazie.ffs.pojo.delete.input.InputDeleteAuthInfo;
@@ -23,6 +24,7 @@ import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
 import com.huazie.fleaframework.common.util.StringUtils;
 import com.huazie.fleaframework.db.common.exceptions.ServiceException;
 import com.huazie.fleaframework.db.jpa.transaction.FleaTransactional;
@@ -40,13 +42,14 @@ import java.util.Map;
  * <p> 删除鉴权，用于获取文件删除所需的鉴权token（token会落库，并关联文件信息）
  * <p> 文件删除，采用逻辑删除方式，仅更新文件状态，FastDFS中的文件保留，
  * 待后续异步任务按保留期限（默认180天）执行物理删除
+ * <p> 实现 {@link IFleaFileCategoryLocator}，为文件管理授权校验提供删除操作的文件类目编号。
  *
  * @author huazie
  * @version 1.0.0
  * @since 1.0.0
  */
 @Service
-public class FleaDeleteSVImpl implements IFleaDeleteSV {
+public class FleaDeleteSVImpl implements IFleaDeleteSV, IFleaFileCategoryLocator {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleaDeleteSVImpl.class);
 
@@ -108,10 +111,9 @@ public class FleaDeleteSVImpl implements IFleaDeleteSV {
         // 查询文件关联的类目编号【文件属性表中获取】
         Long categoryId = fleaFileAttrSV.queryFileCategoryId(fileId);
 
-        // 获取文件类目，并校验类目是否启用文件删除操作
+        // 获取文件类目，并校验文件类目是否存在【是否启用文件删除操作由过滤器统一校验】
         FleaFileCategory fleaFileCategory = fleaFileCategorySV.query(categoryId);
         FleaFSCheck.checkFleaFileCategory(fleaFileCategory, categoryId, null);
-        FleaFSCheck.checkOperationState(fleaFileCategory, OperateTypeEnum.DELETE, categoryId);
 
         // 生成删除鉴权token，为保证token和文件信息落在同一分库，token末位同文件编号末位
         String token = generateToken(fileId);
@@ -219,5 +221,25 @@ public class FleaDeleteSVImpl implements IFleaDeleteSV {
     private void expireFleaTokenInfo(FleaTokenInfo fleaTokenInfo) {
         fleaTokenInfo.setExpiryDate(DateUtils.getCurrentTime());
         fleaTokenInfoSV.update(fleaTokenInfo);
+    }
+
+    @Override
+    public OperateTypeEnum getOperateType() {
+        return OperateTypeEnum.DELETE;
+    }
+
+    @Override
+    public Long getCategoryId(Object inputObj) throws CommonException {
+        // 删除鉴权：业务入参携带文件编号，由文件属性中取文件类目编号
+        if (inputObj instanceof InputDeleteAuthInfo) {
+            return fleaFileAttrSV.queryFileCategoryId(((InputDeleteAuthInfo) inputObj).getFileId());
+        }
+        // 文件删除：业务入参携带鉴权令牌，由令牌关联的鉴权信息中取文件类目编号
+        if (inputObj instanceof InputFileDeleteInfo) {
+            String token = ((InputFileDeleteInfo) inputObj).getToken();
+            FleaTokenInfo fleaTokenInfo = fleaTokenInfoSV.queryValidFleaTokenInfo(token);
+            return ObjectUtils.isEmpty(fleaTokenInfo) ? null : fleaTokenInfo.getCategoryId();
+        }
+        return null;
     }
 }

@@ -14,6 +14,7 @@ import com.huazie.ffs.common.OperateTypeEnum;
 import com.huazie.ffs.common.util.EncryptionUtils;
 import com.huazie.ffs.common.util.FastDFSClient;
 import com.huazie.ffs.common.util.FileUtils;
+import com.huazie.ffs.module.auth.common.IFleaFileCategoryLocator;
 import com.huazie.ffs.module.download.service.interfaces.IFleaDownloadSV;
 import com.huazie.ffs.pojo.download.input.InputDownloadAuthInfo;
 import com.huazie.ffs.pojo.download.input.InputFileDownloadInfo;
@@ -45,13 +46,14 @@ import java.util.Map;
  * Flea下载服务实现类，主要功能如下：
  * <p> 下载鉴权，用于获取文件下载所需的鉴权token（token会落库，并关联文件信息）
  * <p> 文件下载，用于实际文件的下载，内部通过FastDFS API操作文件下载
+ * <p> 实现 {@link IFleaFileCategoryLocator}，为文件管理授权校验提供下载操作的文件类目编号。
  *
  * @author huazie
  * @version 1.0.0
  * @since 1.0.0
  */
 @Service
-public class FleaDownloadSVImpl implements IFleaDownloadSV {
+public class FleaDownloadSVImpl implements IFleaDownloadSV, IFleaFileCategoryLocator {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleaDownloadSVImpl.class);
 
@@ -115,10 +117,9 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
         // 查询文件关联的类目编号【文件属性表中获取】
         Long categoryId = fleaFileAttrSV.queryFileCategoryId(fileId);
 
-        // 获取文件类目，并校验类目是否启用文件下载操作
+        // 获取文件类目，并校验文件类目是否存在【是否启用文件下载操作由过滤器统一校验】
         FleaFileCategory fleaFileCategory = fleaFileCategorySV.query(categoryId);
         FleaFSCheck.checkFleaFileCategory(fleaFileCategory, categoryId, null);
-        FleaFSCheck.checkOperationState(fleaFileCategory, OperateTypeEnum.DOWNLOAD, categoryId);
 
         // 生成下载鉴权token，为保证token和文件信息落在同一分库，token末位同文件编号末位
         String token = generateToken(fileId);
@@ -304,5 +305,25 @@ public class FleaDownloadSVImpl implements IFleaDownloadSV {
     private void expireFleaTokenInfo(FleaTokenInfo fleaTokenInfo) {
         fleaTokenInfo.setExpiryDate(DateUtils.getCurrentTime());
         fleaTokenInfoSV.update(fleaTokenInfo);
+    }
+
+    @Override
+    public OperateTypeEnum getOperateType() {
+        return OperateTypeEnum.DOWNLOAD;
+    }
+
+    @Override
+    public Long getCategoryId(Object inputObj) throws CommonException {
+        // 下载鉴权：业务入参携带文件编号，由文件属性中取文件类目编号
+        if (inputObj instanceof InputDownloadAuthInfo) {
+            return fleaFileAttrSV.queryFileCategoryId(((InputDownloadAuthInfo) inputObj).getFileId());
+        }
+        // 文件下载：业务入参携带鉴权令牌，由令牌关联的鉴权信息中取文件类目编号
+        if (inputObj instanceof InputFileDownloadInfo) {
+            String token = ((InputFileDownloadInfo) inputObj).getToken();
+            FleaTokenInfo fleaTokenInfo = fleaTokenInfoSV.queryValidFleaTokenInfo(token);
+            return ObjectUtils.isEmpty(fleaTokenInfo) ? null : fleaTokenInfo.getCategoryId();
+        }
+        return null;
     }
 }

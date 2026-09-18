@@ -17,6 +17,7 @@ import com.huazie.ffs.common.OperateTypeEnum;
 import com.huazie.ffs.common.util.EncryptionUtils;
 import com.huazie.ffs.common.util.FastDFSClient;
 import com.huazie.ffs.common.util.FileUtils;
+import com.huazie.ffs.module.auth.common.IFleaFileCategoryLocator;
 import com.huazie.ffs.module.search.service.interfaces.IFleaFileIndexSV;
 import com.huazie.ffs.module.update.service.interfaces.IFleaUpdateSV;
 import com.huazie.ffs.pojo.update.input.InputFileUpdateInfo;
@@ -28,6 +29,7 @@ import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
 import com.huazie.fleaframework.common.util.StringUtils;
 import com.huazie.fleaframework.db.jpa.transaction.FleaTransactional;
 import com.huazie.fleaframework.jersey.common.FleaJerseyManager;
@@ -46,13 +48,14 @@ import java.util.Map;
  * Flea更新服务实现类，主要功能如下：
  * <p> 更新鉴权，用于获取文件更新所需的鉴权token（token会落库，并关联文件信息）
  * <p> 文件更新，用于实际文件的更新，内部通过FastDFS API操作文件上传，并留存文件版本快照
+ * <p> 实现 {@link IFleaFileCategoryLocator}，为文件管理授权校验提供更新操作的文件类目编号。
  *
  * @author huazie
  * @version 1.0.0
  * @since 1.0.0
  */
 @Service
-public class FleaUpdateSVImpl implements IFleaUpdateSV {
+public class FleaUpdateSVImpl implements IFleaUpdateSV, IFleaFileCategoryLocator {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleaUpdateSVImpl.class);
 
@@ -122,10 +125,9 @@ public class FleaUpdateSVImpl implements IFleaUpdateSV {
         // 查询文件关联的类目编号【文件属性表中获取】
         Long categoryId = fleaFileAttrSV.queryFileCategoryId(fileId);
 
-        // 获取文件类目，并校验类目是否启用文件更新操作
+        // 获取文件类目，并校验文件类目是否存在【是否启用文件更新操作由过滤器统一校验】
         FleaFileCategory fleaFileCategory = fleaFileCategorySV.query(categoryId);
         FleaFSCheck.checkFleaFileCategory(fleaFileCategory, categoryId, null);
-        FleaFSCheck.checkOperationState(fleaFileCategory, OperateTypeEnum.UPDATE, categoryId);
 
         // 生成更新鉴权token，为保证token和文件信息落在同一分库，token末位同文件编号末位
         String token = generateToken(fileId);
@@ -268,5 +270,25 @@ public class FleaUpdateSVImpl implements IFleaUpdateSV {
     private void expireFleaTokenInfo(FleaTokenInfo fleaTokenInfo) {
         fleaTokenInfo.setExpiryDate(DateUtils.getCurrentTime());
         fleaTokenInfoSV.update(fleaTokenInfo);
+    }
+
+    @Override
+    public OperateTypeEnum getOperateType() {
+        return OperateTypeEnum.UPDATE;
+    }
+
+    @Override
+    public Long getCategoryId(Object inputObj) throws CommonException {
+        // 更新鉴权：业务入参携带文件编号，由文件属性中取文件类目编号
+        if (inputObj instanceof InputUpdateAuthInfo) {
+            return fleaFileAttrSV.queryFileCategoryId(((InputUpdateAuthInfo) inputObj).getFileId());
+        }
+        // 文件更新：业务入参携带鉴权令牌，由令牌关联的鉴权信息中取文件类目编号
+        if (inputObj instanceof InputFileUpdateInfo) {
+            String token = ((InputFileUpdateInfo) inputObj).getToken();
+            FleaTokenInfo fleaTokenInfo = fleaTokenInfoSV.queryValidFleaTokenInfo(token);
+            return ObjectUtils.isEmpty(fleaTokenInfo) ? null : fleaTokenInfo.getCategoryId();
+        }
+        return null;
     }
 }

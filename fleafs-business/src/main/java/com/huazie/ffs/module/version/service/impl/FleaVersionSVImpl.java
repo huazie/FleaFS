@@ -2,9 +2,12 @@ package com.huazie.ffs.module.version.service.impl;
 
 import com.huazie.ffs.base.entity.FleaFileInfo;
 import com.huazie.ffs.base.entity.FleaFileVersion;
+import com.huazie.ffs.base.service.interfaces.IFleaFileAttrSV;
 import com.huazie.ffs.base.service.interfaces.IFleaFileInfoSV;
 import com.huazie.ffs.base.service.interfaces.IFleaFileVersionSV;
 import com.huazie.ffs.base.util.FleaFSCheck;
+import com.huazie.ffs.common.OperateTypeEnum;
+import com.huazie.ffs.module.auth.common.IFleaFileCategoryLocator;
 import com.huazie.ffs.module.version.service.interfaces.IFleaVersionSV;
 import com.huazie.ffs.pojo.version.input.InputFileVersionInfo;
 import com.huazie.ffs.pojo.version.output.OutputFileVersionInfo;
@@ -25,19 +28,22 @@ import java.util.List;
 /**
  * Flea版本服务实现类，主要功能如下：
  * <p> 版本查询，用于查询指定文件的历史版本列表
+ * <p> 实现 {@link IFleaFileCategoryLocator}，为文件管理授权校验提供版本查询操作的文件类目编号。
  *
  * @author huazie
  * @version 1.0.0
  * @since 1.0.0
  */
 @Service
-public class FleaVersionSVImpl implements IFleaVersionSV {
+public class FleaVersionSVImpl implements IFleaVersionSV, IFleaFileCategoryLocator {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleaVersionSVImpl.class);
 
     private IFleaFileInfoSV fleaFileInfoSV;
 
     private IFleaFileVersionSV fleaFileVersionSV;
+
+    private IFleaFileAttrSV fleaFileAttrSV;
 
     @Autowired
     @Qualifier("fleaFileInfoSV")
@@ -49,6 +55,12 @@ public class FleaVersionSVImpl implements IFleaVersionSV {
     @Qualifier("fleaFileVersionSV")
     public void setFleaFileVersionSV(IFleaFileVersionSV fleaFileVersionSV) {
         this.fleaFileVersionSV = fleaFileVersionSV;
+    }
+
+    @Autowired
+    @Qualifier("fleaFileAttrSV")
+    public void setFleaFileAttrSV(IFleaFileAttrSV fleaFileAttrSV) {
+        this.fleaFileAttrSV = fleaFileAttrSV;
     }
 
     @Override
@@ -103,5 +115,19 @@ public class FleaVersionSVImpl implements IFleaVersionSV {
         item.setFileSizeDesc(fleaFileVersion.getFileSizeDesc());
         item.setCreateDate(DateUtils.date2String(fleaFileVersion.getCreateDate(), DateFormatEnum.YYYYMMDDHHMMSS));
         return item;
+    }
+
+    @Override
+    public OperateTypeEnum getOperateType() {
+        return OperateTypeEnum.VERSION;
+    }
+
+    @Override
+    public Long getCategoryId(Object inputObj) throws CommonException {
+        // 版本查询：业务入参携带文件编号，由文件属性中取文件类目编号
+        if (inputObj instanceof InputFileVersionInfo) {
+            return fleaFileAttrSV.queryFileCategoryId(((InputFileVersionInfo) inputObj).getFileId());
+        }
+        return null;
     }
 }
