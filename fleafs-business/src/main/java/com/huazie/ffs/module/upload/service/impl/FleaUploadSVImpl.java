@@ -17,6 +17,7 @@ import com.huazie.ffs.common.OperateTypeEnum;
 import com.huazie.ffs.common.util.EncryptionUtils;
 import com.huazie.ffs.common.util.FastDFSClient;
 import com.huazie.ffs.common.util.FileUtils;
+import com.huazie.ffs.module.auth.common.IFleaFileCategoryLocator;
 import com.huazie.ffs.module.search.service.interfaces.IFleaFileIndexSV;
 import com.huazie.ffs.module.upload.service.interfaces.IFleaUploadSV;
 import com.huazie.ffs.pojo.upload.input.InputFileUploadInfo;
@@ -28,6 +29,7 @@ import com.huazie.fleaframework.common.exceptions.CommonException;
 import com.huazie.fleaframework.common.slf4j.FleaLogger;
 import com.huazie.fleaframework.common.slf4j.impl.FleaLoggerProxy;
 import com.huazie.fleaframework.common.util.DateUtils;
+import com.huazie.fleaframework.common.util.ObjectUtils;
 import com.huazie.fleaframework.db.common.util.FleaLibUtil;
 import com.huazie.fleaframework.db.jpa.transaction.FleaTransactional;
 import com.huazie.fleaframework.jersey.common.FleaJerseyManager;
@@ -46,13 +48,14 @@ import java.util.Map;
  * Flea上传服务实现类，主要功能如下：
  * <p> 上传鉴权，用于获取文件上传所需的鉴权token
  * <p> 文件上传，用于实际文件的上传，内部通过FastDFS API操作文件上传
+ * <p> 实现 {@link IFleaFileCategoryLocator}，为文件管理授权校验提供上传操作的文件类目编号。
  *
  * @author huazie
  * @version 1.0.0
  * @since 1.0.0
  */
 @Service
-public class FleaUploadSVImpl implements IFleaUploadSV {
+public class FleaUploadSVImpl implements IFleaUploadSV, IFleaFileCategoryLocator {
 
     private static final FleaLogger LOGGER = FleaLoggerProxy.getProxyInstance(FleaUploadSVImpl.class);
 
@@ -137,8 +140,6 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
         FleaFSCheck.checkFleaFileCategory(fleaFileCategory, input.getCategoryId(), input.getCategoryCode());
 
         Long categoryId = fleaFileCategory.getCategoryId();
-        // 校验类目是否启用文件上传操作
-        FleaFSCheck.checkOperationState(fleaFileCategory, OperateTypeEnum.UPLOAD, categoryId);
         // 预生成文件属性信息
         fleaFileAttrSV.preSavFileRelCategoryAttr(fileId, categoryId, extendMap);
 
@@ -260,5 +261,25 @@ public class FleaUploadSVImpl implements IFleaUploadSV {
     private void expireFleaTokenInfo(FleaTokenInfo fleaTokenInfo) {
         fleaTokenInfo.setExpiryDate(DateUtils.getCurrentTime());
         fleaTokenInfoSV.update(fleaTokenInfo);
+    }
+
+    @Override
+    public OperateTypeEnum getOperateType() {
+        return OperateTypeEnum.UPLOAD;
+    }
+
+    @Override
+    public Long getCategoryId(Object inputObj) throws CommonException {
+        // 上传鉴权：业务入参直接携带文件类目编号
+        if (inputObj instanceof InputUploadAuthInfo) {
+            return ((InputUploadAuthInfo) inputObj).getCategoryId();
+        }
+        // 文件上传：业务入参携带鉴权令牌，由令牌关联的鉴权信息中取文件类目编号
+        if (inputObj instanceof InputFileUploadInfo) {
+            String token = ((InputFileUploadInfo) inputObj).getToken();
+            FleaTokenInfo fleaTokenInfo = fleaTokenInfoSV.queryValidFleaTokenInfo(token);
+            return ObjectUtils.isEmpty(fleaTokenInfo) ? null : fleaTokenInfo.getCategoryId();
+        }
+        return null;
     }
 }

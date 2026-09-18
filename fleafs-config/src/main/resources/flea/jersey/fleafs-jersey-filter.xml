@@ -35,6 +35,10 @@
         <i18n-error-mapping i18nCode="ERROR-SERVICE0000000011" errorCode="101011"/>
         <i18n-error-mapping i18nCode="ERROR-SERVICE0000000012" errorCode="101012"/>
         <i18n-error-mapping i18nCode="ERROR-SERVICE0000000013" errorCode="101013"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000014" errorCode="101014"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000015" errorCode="101015"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000016" errorCode="101016"/>
+        <i18n-error-mapping i18nCode="ERROR-SERVICE0000000017" errorCode="101017"/>
     </filter-i18n-error>
 
 </jersey>

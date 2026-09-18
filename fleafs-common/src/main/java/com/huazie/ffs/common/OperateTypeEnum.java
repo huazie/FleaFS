@@ -1,5 +1,7 @@
 package com.huazie.ffs.common;
 
+import com.huazie.fleaframework.common.util.StringUtils;
+
 /**
  * 操作类型枚举，定义了文件管理的各个操作类型
  * <p> 其中 {@code index} 表示该操作在文件类目"操作状态"字符串中的位序，
@@ -40,5 +42,22 @@ public enum OperateTypeEnum {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * 根据操作类型获取对应的操作类型枚举
+     *
+     * @param type 操作类型
+     * @return 操作类型枚举，未匹配时返回null
+     * @since 1.0.0
+     */
+    public static OperateTypeEnum getOperateType(String type) {
+        if (StringUtils.isBlank(type)) return null;
+        for (OperateTypeEnum operateTypeEnum : values()) {
+            if (operateTypeEnum.getType().equalsIgnoreCase(type)) {
+                return operateTypeEnum;
+            }
+        }
+        return null;
     }
 }

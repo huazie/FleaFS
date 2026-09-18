@@ -61,9 +61,53 @@ public final class FleaFSConstants {
          */
         public static final String ATTR_CODE_INCLUDE_SYSTEM_USER = "INCLUDE_SYSTEM_USER";
         /**
+         * 包含操作用户
+         */
+        public static final String ATTR_CODE_INCLUDE_OPERATION_USER = "INCLUDE_OPERATION_USER";
+        /**
+         * 包含用户组
+         */
+        public static final String ATTR_CODE_INCLUDE_USER_GROUP = "INCLUDE_USER_GROUP";
+        /**
+         * 排除系统用户
+         */
+        public static final String ATTR_CODE_EXCLUDE_SYSTEM_USER = "EXCLUDE_SYSTEM_USER";
+        /**
+         * 排除操作用户
+         */
+        public static final String ATTR_CODE_EXCLUDE_OPERATION_USER = "EXCLUDE_OPERATION_USER";
+        /**
+         * 排除用户组
+         */
+        public static final String ATTR_CODE_EXCLUDE_USER_GROUP = "EXCLUDE_USER_GROUP";
+        /**
          * 文件关联的类目编号
          */
         public static final String ATTR_CODE_CATEGORY_ID = "CATEGORY_ID";
+    }
+
+    /**
+     * 文件管理授权校验常量
+     * <p> 授权校验方式按位组合，对应文件类目属性【AUTH_CHECK_MODE】的属性值。
+     *
+     * @since 1.1.0
+     */
+    public static final class AuthConstants {
+        /**
+         * 授权校验方式：无需校验
+         */
+        public static final int AUTH_CHECK_MODE_NONE = 0;
+        /**
+         * 授权校验方式位：系统用户授权校验
+         */
+        public static final int AUTH_CHECK_MODE_SYSTEM_USER = 1;
+        /**
+         * 授权校验方式位：操作用户授权校验
+         */
+        public static final int AUTH_CHECK_MODE_OPERATION_USER = 1 << 1;
+
+        private AuthConstants() {
+        }
     }
 
     /**
