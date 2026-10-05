@@ -1,4 +1,5 @@
 # FleaFS
+[![Flea Framework](https://img.shields.io/badge/flea--framework-2.0.0-green?style=flat)](https://github.com/huazie/flea-framework) [![license](https://img.shields.io/badge/license-MIT-orange)](https://github.com/Huazie/FleaFS/blob/main/LICENSE) [![GitHub Repo stars](https://img.shields.io/github/stars/Huazie/FleaFS?style=flat)](https://github.com/Huazie/FleaFS/stargazers)
 
 Flea文件服务器，基于 [Flea Framework](https://github.com/huazie/flea-framework) 构建，支持各授权系统接入，实现文件的分布式管理与统一授权访问。
 
