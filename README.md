@@ -108,6 +108,6 @@ mvn clean install -Dmaven.test.skip=true
 
 > 注意：Jersey资源/服务/客户端在运行期从 `fleafsconfig` 配置库读取，新增资源接口需先在配置库登记。
 
-## LICENSE
+## 许可证
 
-[MIT](LICENSE)
+本项目基于 MIT 许可证开源 - 查看 [LICENSE](LICENSE) 文件了解更多细节
