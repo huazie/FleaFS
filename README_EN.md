@@ -108,6 +108,6 @@ The application configuration is centralized in `fleafs-config/src/main/resource
 
 > Note: Jersey resources/services/clients are loaded from the `fleafsconfig` database at runtime. New resource interfaces must be registered in the configuration database first.
 
-## LICENSE
+## License
 
-[MIT](LICENSE)
+This project is open source under the MIT License - see the [LICENSE](LICENSE) file for details.
